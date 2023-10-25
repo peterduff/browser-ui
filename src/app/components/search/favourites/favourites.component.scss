@@ -1,0 +1,48 @@
+@import 'src/variables.scss';
+
+div#favourites {
+    height: calc(100vh - 13.8rem);
+    overflow-x: scroll;
+
+    div.header {
+        background-color: $off-white-light;
+
+        p {
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+    }
+
+    div.body {
+        position: relative;
+
+        p {
+            font-size: 1.4rem;
+        }
+
+        &.odd {
+            background-color: $off-white-light;
+        }
+
+        &.body {
+            &:hover {
+                background-color: $anakiwa;
+                cursor: pointer;
+            }
+        }
+
+        button.cross {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            width: 2rem;
+            height: 2rem;
+            font-size: 1.6rem;
+            //color: $mandy;
+
+            &:hover {
+                color: $mandy;
+            }
+        }
+    }
+}

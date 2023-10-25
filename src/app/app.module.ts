@@ -14,12 +14,12 @@ import { SearchComponent } from './components/search/search/search.component';
 import { TaxonomyComponent } from './components/search/taxonomy/taxonomy.component';
 import { EclComponent } from './components/search/ecl/ecl.component';
 import { FavouritesComponent } from './components/search/favourites/favourites.component';
-import { RefsetsComponent } from './components/search/refsets/refsets.component';
+import { RefsetComponent } from './components/search/refset/refset.component';
 import { SummaryComponent } from './components/results/summary/summary.component';
 import { DetailsComponent } from './components/results/details/details.component';
 import { DiagramComponent } from './components/results/diagram/diagram.component';
 import { ExpressionComponent } from './components/results/expression/expression.component';
-import { RefsetComponent } from './components/results/refset/refset.component';
+import { RefsetsComponent } from './components/results/refsets/refsets.component';
 import { MembersComponent } from './components/results/members/members.component';
 import { HistoryComponent } from './components/results/history/history.component';
 import { ReferencesComponent } from './components/results/references/references.component';
@@ -36,6 +36,12 @@ import {MembersService} from "./services/members/members.service";
 import {ModalService} from "./services/modal/modal.service";
 import {PathingService} from "./services/pathing/pathing.service";
 import {SnowstormService} from "./services/snowstorm/snowstorm.service";
+import { SimpleRefsetsPipe } from './pipes/simple-refsets/simple-refsets.pipe';
+import { MapRefsetsPipe } from './pipes/map-refsets/map-refsets.pipe';
+import { AttributeRefsetsPipe } from './pipes/attribute-refsets/attribute-refsets.pipe';
+import { AssociationRefsetsPipe } from './pipes/association-refsets/association-refsets.pipe';
+import {HistoryService} from "./services/history/history.service";
+import {ReferencesService} from "./services/references/references.service";
 
 @NgModule({
     declarations: [
@@ -48,12 +54,12 @@ import {SnowstormService} from "./services/snowstorm/snowstorm.service";
         TaxonomyComponent,
         EclComponent,
         FavouritesComponent,
-        RefsetsComponent,
+        RefsetComponent,
         SummaryComponent,
         DetailsComponent,
         DiagramComponent,
         ExpressionComponent,
-        RefsetComponent,
+        RefsetsComponent,
         MembersComponent,
         HistoryComponent,
         ReferencesComponent,
@@ -61,7 +67,11 @@ import {SnowstormService} from "./services/snowstorm/snowstorm.service";
         ActivePipe,
         ConceptUtilityBarComponent,
         AcceptabilityMapPipe,
-        DescriptionsPipe
+        DescriptionsPipe,
+        SimpleRefsetsPipe,
+        MapRefsetsPipe,
+        AttributeRefsetsPipe,
+        AssociationRefsetsPipe
     ],
     imports: [
         BrowserModule,
@@ -79,7 +89,9 @@ import {SnowstormService} from "./services/snowstorm/snowstorm.service";
         MembersService,
         ModalService,
         PathingService,
-        SnowstormService
+        SnowstormService,
+        HistoryService,
+        ReferencesService
     ],
     bootstrap: [AppComponent]
 })

@@ -8,7 +8,12 @@ div#concept {
         color: $white;
         height: 2rem;
         width: 2rem;
+        min-width: 2rem;
         line-height: 2rem;
+    }
+
+    p {
+        font-size: 1.4rem;
     }
 }
 

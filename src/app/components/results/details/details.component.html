@@ -40,27 +40,29 @@
             </div>
         </div>
 
-        <ng-container *ngIf="referenceSets">
+        <ng-container *ngIf="members">
             <div class="col-12 px-3">
                 <ng-container *ngFor="let item of calculateMaps(activeConcept) | keyvalue">
                     <div class="m-3 rounded-3 acceptability-map overflow-hidden">
                         <h4 class="px-3 pt-3 mb-0">{{findMap(item.key)?.fsn?.term}}</h4>
                         <div class="row header p-3">
                             <div class="col-8">
-                                Term
+                                <p class="m-0">Term</p>
                             </div>
                             <div class="col-4">
-                                Acceptability ({{findMap(item.key)?.pt?.term}})
+                                <p class="m-0">Acceptability ({{findMap(item.key)?.pt?.term}})</p>
                             </div>
                         </div>
                         <ng-container *ngFor="let description of activeConcept.descriptions! | active | descriptions:item.key | acceptabilityMap:item.key; let odd = odd">
                             <div class="row p-3" [class.odd]="odd">
                                 <div class="col-8">
-                                    <span class="type rounded-pill px-2 py-1 me-2" [class.fsn]="description.type === 'FSN'" [class.synonym]="description.type === 'SYNONYM'">{{description.type}}</span>
-                                    {{description.term}}
+                                    <p class="m-0">
+                                        <span class="type rounded-pill px-2 py-1 me-2" [class.fsn]="description.type === 'FSN'" [class.synonym]="description.type === 'SYNONYM'">{{description.type}}</span>
+                                        {{description.term}}
+                                    </p>
                                 </div>
                                 <div class="col-4">
-                                    {{getAcceptability(description, item.key)}}
+                                    <p class="m-0">{{getAcceptability(description, item.key)}}</p>
                                     <button class="info rounded-circle border-0 p-0">
                                         <i class="fa-solid fa-info p-1"></i>
                                     </button>
@@ -76,31 +78,31 @@
             <div class="m-3 rounded-3 axioms overflow-hidden">
                 <div class="row header p-3">
                     <div class="col-3">
-                        Type
+                        <p class="m-0">Type</p>
                     </div>
                     <div class="col-6">
-                        Destination
+                        <p class="m-0">Destination</p>
                     </div>
                     <div class="col-1">
-                        Group
+                        <p class="m-0">Group</p>
                     </div>
                     <div class="col-2">
-                        CharType
+                        <p class="m-0">CharType</p>
                     </div>
                 </div>
                 <ng-container *ngFor="let relationship of activeConcept.relationships | active | alphabetical:'groupId'; let even = even">
                     <div class="row p-3" [class.even]="even">
                         <div class="col-3">
-                            {{relationship.type?.fsn?.term}}
+                            <p class="m-0">{{relationship.type?.fsn?.term}}</p>
                         </div>
                         <div class="col-6">
-                            {{relationship.target?.fsn?.term}}
+                            <p class="m-0">{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target?.fsn?.term}}</p>
                         </div>
                         <div class="col-1">
-                            {{relationship.groupId}}
+                            <p class="m-0">{{relationship.groupId}}</p>
                         </div>
                         <div class="col-2">
-                            INFERRED
+                            <p class="m-0">INFERRED</p>
                             <button class="info rounded-circle border-0 p-0">
                                 <i class="fa-solid fa-info p-1"></i>
                             </button>
@@ -115,31 +117,31 @@
                 <h4 class="px-3 pt-3 mb-0">AXIOMS</h4>
                 <div class="row header p-3">
                     <div class="col-3">
-                        Type
+                        <p class="m-0">Type</p>
                     </div>
                     <div class="col-6">
-                        Destination
+                        <p class="m-0">Destination</p>
                     </div>
                     <div class="col-1">
-                        Group
+                        <p class="m-0">Group</p>
                     </div>
                     <div class="col-2">
-                        CharType
+                        <p class="m-0">CharType</p>
                     </div>
                 </div>
                 <ng-container *ngFor="let relationship of activeConcept.classAxioms![0].relationships | active | alphabetical:'groupId'; let even = even">
                     <div class="row p-3" [class.even]="even">
                         <div class="col-3">
-                            {{relationship.type?.fsn?.term}}
+                            <p class="m-0">{{relationship.type?.fsn?.term}}</p>
                         </div>
                         <div class="col-6">
-                            {{relationship.target?.fsn?.term}}
+                            <p class="m-0">{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target?.fsn?.term}}</p>
                         </div>
                         <div class="col-1">
-                            {{relationship.groupId}}
+                            <p class="m-0">{{relationship.groupId}}</p>
                         </div>
                         <div class="col-2">
-                            STATED
+                            <p class="m-0">STATED</p>
                             <button class="info rounded-circle border-0 p-0">
                                 <i class="fa-solid fa-info p-1"></i>
                             </button>

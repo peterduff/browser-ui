@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RefsetComponent } from './refset.component';
 
-describe('RefsetComponent', () => {
+describe('RefsetsComponent', () => {
   let component: RefsetComponent;
   let fixture: ComponentFixture<RefsetComponent>;
 

@@ -66,15 +66,15 @@ export class SnomedNavbarComponent implements OnInit {
                     this.pathingService.setVersions(versions);
                     this.pathingService.setActiveVersion(this.reverseAlphabeticalPipe.transform(versions, 'effectiveDate')[0]);
 
-                    this.membersService.httpGetReferenceSets().subscribe(data => {
-                        this.membersService.setReferenceSets(data);
+                    this.membersService.httpGetMembers().subscribe(data => {
+                        this.membersService.setMembers(data);
                     });
 
 
                     let concept: Concept = {
                         // conceptId: '318351000221106'
-                        // conceptId: '22298006'
-                        conceptId: '1222625002'
+                        conceptId: '22298006'
+                        // conceptId: '1222625002'
                         // conceptId: '293584003'
                     }
 

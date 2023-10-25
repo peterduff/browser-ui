@@ -18,12 +18,15 @@ export class SummaryComponent {
     activeParentsSubscription: Subscription;
     inferredView!: boolean;
     inferredViewSubscription: Subscription;
+    favourites!: Concept[];
+    favouritesSubscription: Subscription;
 
     constructor(private conceptService: ConceptService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.activeChildrenSubscription = this.conceptService.getActiveChildren().subscribe(data => this.activeChildren = data);
         this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
+        this.favouritesSubscription = this.conceptService.getFavourites().subscribe(data => this.favourites = data);
     }
 
     formatRelationships(relationships: Relationship[]) {
@@ -33,7 +36,7 @@ export class SummaryComponent {
 
         let response: any[] = [];
         let group: any[] = [];
-        let counter: number = relationships[0].groupId;
+        let counter: number = relationships[0]?.groupId;
 
         relationships.forEach((relationship) => {
             if (relationship.groupId === counter) {
@@ -49,5 +52,14 @@ export class SummaryComponent {
         response.push({groups: group, groupId: counter});
 
         return response;
+    }
+
+    addToFavourites(concept: Concept) {
+        if (!this.favourites) {
+            this.favourites = [];
+        }
+
+        this.favourites.push(concept);
+        this.conceptService.setFavourites(this.favourites);
     }
 }

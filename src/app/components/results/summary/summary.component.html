@@ -22,7 +22,7 @@
                         </ng-container>
                     </div>
                     <h4 class="d-inline-block p-3 m-0">{{activeConcept.fsn?.term}}</h4>
-                    <button class="star rounded-circle border-0 p-0"><i class="fa-solid fa-star p-1"></i></button>
+                    <button class="star rounded-circle border-0 p-0" (click)="addToFavourites(activeConcept)"><i class="fa-solid fa-star p-1"></i></button>
                     <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
                 </div>
                 <h4 class="sctid px-3 py-2 m-0">
@@ -47,14 +47,14 @@
                     <ng-container *ngIf="relationshipGroup.groupId === 0">
                         <div class="axiom py-2 px-3 rounded-3 clear-background">
                             <ng-container *ngFor="let relationship of relationshipGroup.groups">
-                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                                <p class="mb-1">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-3"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
                             </ng-container>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="relationshipGroup.groupId !== 0">
                         <div class="axiom m-3 py-2 px-3 rounded-3">
                             <ng-container *ngFor="let relationship of relationshipGroup.groups">
-                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                                <p class="mb-1">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-3"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
                             </ng-container>
                         </div>
                     </ng-container>
@@ -69,14 +69,14 @@
                     <ng-container *ngIf="relationshipGroup.groupId === 0">
                         <div class="axiom py-2 px-3 rounded-3 clear-background">
                             <ng-container *ngFor="let relationship of relationshipGroup.groups">
-                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                                <p class="mb-1">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-3"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
                             </ng-container>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="relationshipGroup.groupId !== 0">
                         <div class="axiom m-3 py-2 px-3 rounded-3">
                             <ng-container *ngFor="let relationship of relationshipGroup.groups">
-                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                                <p class="mb-1">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-3"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
                             </ng-container>
                         </div>
                     </ng-container>

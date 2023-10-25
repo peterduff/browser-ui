@@ -20,8 +20,8 @@ export class DetailsComponent {
     activeParentsSubscription: Subscription;
     inferredView!: boolean;
     inferredViewSubscription: Subscription;
-    referenceSets!: ReferenceSet[];
-    referenceSetsSubscription: Subscription;
+    members!: ReferenceSet[];
+    membersSubscription: Subscription;
 
     constructor(private conceptService: ConceptService,
                 private membersService: MembersService) {
@@ -29,7 +29,7 @@ export class DetailsComponent {
         this.activeChildrenSubscription = this.conceptService.getActiveChildren().subscribe(data => this.activeChildren = data);
         this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
-        this.referenceSetsSubscription = this.membersService.getReferenceSets().subscribe(data => this.referenceSets = data);
+        this.membersSubscription = this.membersService.getMembers().subscribe(data => this.members = data);
     }
 
     calculateMaps(concept: Concept): any {
@@ -43,7 +43,7 @@ export class DetailsComponent {
     }
 
     findMap(key: any): any {
-        return this.referenceSets[key];
+        return this.members[key];
     }
 
     getAcceptability(description: Description, acceptabilityId: any): any {

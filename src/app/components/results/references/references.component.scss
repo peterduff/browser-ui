@@ -1,0 +1,49 @@
+@import 'src/variables.scss';
+
+div#references {
+    div.references {
+        max-height: calc(100vh - 18.8rem);
+        overflow-x: scroll;
+
+        div.concept {
+            background: $anakiwa;
+
+            h4 {
+                font-size: 1.6rem;
+                font-weight: 300;
+            }
+        }
+    }
+
+    div.reference {
+        background-color: $off-white-light;
+
+        h4 {
+            font-size: 1.6rem;
+            font-weight: 300;
+
+            span {
+                font-size: 1.4rem;
+                color: $blumine;
+            }
+        }
+
+        div.row {
+            p {
+                font-size: 1.4rem;
+            }
+
+            &.header {
+                background-color: $off-white;
+
+                p {
+                    font-weight: 400;
+                }
+            }
+
+            &.odd {
+                background-color: $off-white;
+            }
+        }
+    }
+}

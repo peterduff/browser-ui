@@ -1,1 +1,23 @@
-<p>favourites works!</p>
+<div id="favourites" class="container g-0">
+    <div class="row header g-0">
+        <div class="col-8">
+            <p class="m-0 p-3">FULLY SPECIFIED NAME</p>
+        </div>
+        <div class="col-4">
+            <p class="m-0 p-3">CONCEPT ID</p>
+        </div>
+    </div>
+    <ng-container *ngFor="let favourite of favourites; let odd = odd" (click)="findConcept(favourite)">
+        <div class="row body border-bottom g-0" [class.odd]="odd">
+            <div class="col-8 border-end">
+                <div class="m-0 p-3">
+                    <app-concept [definitionStatus]="favourite.definitionStatus!" [text]="favourite?.fsn?.term!"></app-concept>
+                </div>
+            </div>
+            <div class="col-4">
+                <p class="m-0 p-3">{{favourite.conceptId}}</p>
+            </div>
+            <button class="bg-transparent cross p-2 rounded-circle" (click)="removeFromFavourites(favourite)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </ng-container>
+</div>

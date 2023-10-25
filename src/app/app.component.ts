@@ -3,7 +3,7 @@ import {PathingService} from "./services/pathing/pathing.service";
 import {AuthenticationService} from "./services/authentication/authentication.service";
 import {AuthoringService} from "./services/authoring/authoring.service";
 import {DOCUMENT} from "@angular/common";
-import {MembersService} from "./services/members/members.service";
+import {ConceptService} from "./services/concept/concept.service";
 
 @Component({
     selector: 'app-root',
@@ -17,11 +17,14 @@ export class AppComponent implements OnInit {
     constructor(private authenticationService: AuthenticationService,
                 private authoringService: AuthoringService,
                 private pathingService: PathingService,
+                private conceptService: ConceptService,
                 @Inject(DOCUMENT) private document: Document) {
     }
 
     ngOnInit() {
         this.environment = window.location.host.split(/[.]/)[0].split(/[-]/)[0];
+
+        this.conceptService.setFavourites(JSON.parse(localStorage.getItem('favourites')!));
 
         this.assignFavicon();
     }

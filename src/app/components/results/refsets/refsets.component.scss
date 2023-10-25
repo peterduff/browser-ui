@@ -1,0 +1,129 @@
+@import 'src/variables.scss';
+
+div#refsets {
+    div.refsets {
+        max-height: calc(100vh - 18.8rem);
+        overflow-x: scroll;
+
+        div.concept {
+            background: $off-white;
+
+            div.name {
+                padding-right: 6rem;
+                position: relative;
+
+                h4 {
+                    font-size: 1.6rem;
+                    font-weight: 300;
+                }
+
+                button.maps {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background-color: $cerulean;
+                    color: $white;
+                    font-size: 1.4rem;
+                    font-weight: 400;
+                    letter-spacing: 1px;
+
+                    &:hover {
+                        background-color: $cerulean-dark;
+                    }
+                }
+            }
+        }
+
+        div.simple {
+            background: $anakiwa;
+
+            h4 {
+                font-size: 1.6rem;
+                font-weight: 300;
+            }
+
+            div.row {
+                p {
+                    font-size: 1.4rem;
+                }
+
+                div {
+                    position: relative;
+
+                    button.info {
+                        background-color: transparent;
+                        position: absolute;
+                        top: 0;
+                        right: 1rem;
+                        font-weight: 300;
+                        height: 2rem;
+                        width: 2rem;
+
+                        &:hover {
+                            background-color: $anakiwa-dark;
+                        }
+                    }
+                }
+
+                &.even {
+                    background-color: $anakiwa-light;
+                }
+            }
+        }
+
+        div.maps {
+            background: $anakiwa;
+
+            h4 {
+                font-size: 1.6rem;
+                font-weight: 300;
+            }
+
+            div.row {
+                p {
+                    font-size: 1.4rem;
+                }
+
+                div {
+                    position: relative;
+
+                    button.info {
+                        background-color: transparent;
+                        position: absolute;
+                        top: 0;
+                        right: 1rem;
+                        font-weight: 300;
+                        height: 2rem;
+                        width: 2rem;
+
+                        &:hover {
+                            background-color: $anakiwa-dark;
+                        }
+                    }
+                }
+
+                &.even {
+                    background-color: $anakiwa-light;
+                }
+            }
+        }
+
+        div.attribute {
+            background: $off-white;
+
+            h4 {
+                font-size: 1.6rem;
+                font-weight: 300;
+            }
+        }
+
+        div.association {
+            background: $off-white;
+
+            h4 {
+                font-size: 1.6rem;
+                font-weight: 300;
+            }
+        }
+    }
+}

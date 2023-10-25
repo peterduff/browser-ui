@@ -39,8 +39,7 @@ export class SearchComponent implements OnInit {
     inferredViewSubscription: Subscription;
 
     constructor(private snowstormService: SnowstormService,
-                private conceptService: ConceptService,
-                private membersService: MembersService) {
+                private conceptService: ConceptService) {
         this.searchDescriptionsSubscription = this.snowstormService.getSearchDescriptions().subscribe(data => this.searchDescriptions = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
     }

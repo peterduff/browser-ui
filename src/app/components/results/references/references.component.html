@@ -1,1 +1,54 @@
-<p>references works!</p>
+<div id="references" class="container g-0">
+    <div *ngIf="activeConcept && references" class="row references g-0">
+        <div class="col-12 px-3 pt-3">
+            <div class="m-3 rounded-3 concept overflow-hidden">
+                <h4 class="d-inline-block p-3 my-1">{{activeConcept.conceptId}} |{{activeConcept.fsn?.term}}|</h4>
+            </div>
+        </div>
+        <ng-container *ngFor="let reference of references; let last = last">
+            <div class="col-12 px-3" [class.pb-3]="last">
+                <div class="m-3 rounded-3 reference overflow-hidden">
+                    <div class="name">
+                        <input type="checkbox" #expanded hidden>
+                        <div class="col" (click)="expanded.value === 'expanded' ? expanded.value = 'collapsed' : expanded.value = 'expanded'">
+                            <h4 class="px-3 pt-3 mb-3">
+                                {{reference.referenceType.fsn?.term}}
+                                <span class="count ps-3">{{reference.referencingConcepts.length}} concepts</span>
+                                <span class="chevron float-start pe-3">
+                                    <i *ngIf="expanded.value !== 'expanded'" class="fa-solid fa-chevron-right"></i>
+                                    <i *ngIf="expanded.value === 'expanded'" class="fa-solid fa-chevron-down"></i>
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="expanded.value === 'expanded'">
+                        <div class="row header p-3">
+                            <div class="col-5">
+                                <p class="m-0">TERM</p>
+                            </div>
+                            <div class="col-5">
+                                <p class="m-0">PREFERRED TERM</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="m-0">CONCEPT ID</p>
+                            </div>
+                        </div>
+                        <ng-container *ngFor="let concept of reference.referencingConcepts; let odd = odd">
+                            <div class="row body p-3" [class.odd]="odd">
+                                <div class="col-5">
+                                    <app-concept [definitionStatus]="concept.definitionStatus!" [text]="concept.fsn?.term!"></app-concept>
+                                </div>
+                                <div class="col-5">
+                                    <p class="m-0">{{concept.pt?.term}}</p>
+                                </div>
+                                <div class="col-2">
+                                    <p class="m-0">{{concept.conceptId}}</p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

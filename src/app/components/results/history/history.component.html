@@ -1,1 +1,35 @@
-<p>history works!</p>
+<div id="history" class="container g-0">
+    <div *ngIf="activeConcept && history" class="row history g-0">
+        <div class="col-12 px-3 pt-3">
+            <div class="m-3 rounded-3 concept overflow-hidden">
+                <h4 class="d-inline-block p-3 my-1">{{activeConcept.conceptId}} |{{activeConcept.fsn?.term}}|</h4>
+            </div>
+        </div>
+        <div class="col-12 px-3 pb-3">
+            <div class="m-3 rounded-3 changes overflow-hidden">
+                <div class="row header p-3">
+                    <div class="col-3">
+                        <p class="m-0">VERSION</p>
+                    </div>
+                    <div class="col-9">
+                        <p class="m-0">TYPE OF CHANGE</p>
+                    </div>
+                </div>
+                <ng-container *ngFor="let item of history; let odd = odd">
+                    <div class="row body p-3" [class.odd]="odd">
+                        <div class="col-3">
+                            <p class="m-0">{{formatEffectiveTime(item.effectiveTime)}}</p>
+                        </div>
+                        <div class="col-9">
+                            <p class="m-0">
+                                <span *ngFor="let change of item.componentTypes; let last = last">
+                                    {{change}}{{last ? '' : ', '}}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
