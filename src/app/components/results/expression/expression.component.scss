@@ -1,0 +1,129 @@
+@import 'src/variables.scss';
+
+div#expression {
+    div.pre-coordinated {
+        div.expression {
+            background: $anakiwa;
+
+            div.header {
+                position: relative;
+
+                h4 {
+                    font-size: 1.6rem;
+                    font-weight: 300;
+                }
+
+                button {
+                    position: absolute;
+                    top: 1rem;
+                    background-color: transparent;
+                    height: 2rem;
+                    width: 2rem;
+                    font-size: 1.4rem;
+
+                    &.dots {
+                        right: 1rem;
+                    }
+
+                    &:hover {
+                        background-color: $anakiwa-dark;
+                    }
+                }
+            }
+
+            div.body {
+                background: $anakiwa-light;
+
+                p.code {
+                    font-size: 1.4rem;
+
+                    font-family: "Courier New", serif;
+                }
+            }
+        }
+    }
+
+    div.axiom {
+        div.expression {
+            background: $off-white;
+
+            div.header {
+                position: relative;
+
+                h4 {
+                    font-size: 1.6rem;
+                    font-weight: 300;
+                }
+
+                button {
+                    position: absolute;
+                    top: 1rem;
+                    background-color: transparent;
+                    height: 2rem;
+                    width: 2rem;
+                    font-size: 1.4rem;
+
+                    &.dots {
+                        right: 1rem;
+                    }
+
+                    &:hover {
+                        background-color: $anakiwa-dark;
+                    }
+                }
+            }
+
+            div.body {
+                background: $off-white-light;
+
+                p.code {
+                    font-size: 1.4rem;
+
+                    font-family: "Courier New", serif;
+                }
+            }
+        }
+    }
+
+    div.inferred {
+        div.expression {
+            background: $off-white;
+
+            div.header {
+                position: relative;
+
+                h4 {
+                    font-size: 1.6rem;
+                    font-weight: 300;
+                }
+
+                button {
+                    position: absolute;
+                    top: 1rem;
+                    background-color: transparent;
+                    height: 2rem;
+                    width: 2rem;
+                    font-size: 1.4rem;
+
+                    &.dots {
+                        right: 1rem;
+                    }
+
+                    &:hover {
+                        background-color: $anakiwa-dark;
+                    }
+                }
+            }
+
+            div.body {
+                background: $off-white-light;
+
+                p.code {
+                    font-size: 1.4rem;
+
+                    font-family: "Courier New", serif;
+                }
+            }
+        }
+    }
+}

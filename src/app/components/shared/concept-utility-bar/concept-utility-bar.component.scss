@@ -1,0 +1,32 @@
+@import 'src/variables.scss';
+
+div#concept-utility-bar {
+    div.options {
+        position: relative;
+        background: $off-white-light;
+
+        div.toggle {
+            height: 3rem;
+
+            span.stated {
+                position: absolute;
+                top: 1rem;
+                left: 11.5rem;
+                font-size: 1.4rem;
+                font-weight: 400;
+                color: rgba(0,0,0,0.87);
+                -webkit-font-smoothing: antialiased;
+            }
+        }
+
+        button.history {
+            height: 3rem;
+            background-color: $off-white-dark;
+            font-size: 1.6rem;
+
+            &:hover {
+                background-color: $off-white-light;
+            }
+        }
+    }
+}

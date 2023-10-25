@@ -1,0 +1,187 @@
+@import 'src/variables.scss';
+
+div#details {
+    div.details {
+        max-height: calc(100vh - 18.8rem);
+        overflow-x: scroll;
+
+        div.concept {
+            background: $anakiwa;
+
+            div.definition-status {
+                background-color: $sea-buckthorn-light;
+                color: $white;
+                height: 2rem;
+                width: 2rem;
+                line-height: 2rem;
+            }
+
+            div.name {
+                padding-right: 6rem;
+                padding-left: 3rem;
+                position: relative;
+
+                div.definition-status {
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                }
+
+                h4 {
+                    font-size: 1.6rem;
+                    font-weight: 300;
+                }
+
+                button {
+                    position: absolute;
+                    top: 1rem;
+                    background-color: transparent;
+                    height: 2rem;
+                    width: 2rem;
+                    font-size: 1.4rem;
+
+                    &.dots {
+                        right: 1rem;
+                    }
+
+                    &.info {
+                        right: 4rem;
+                    }
+
+                    &:hover {
+                        background-color: $anakiwa-dark;
+                    }
+                }
+            }
+
+            h4.sctid {
+                font-size: 1.6rem;
+                font-weight: 300;
+
+                span {
+                    font-size: 1.2rem;
+                    color: $blumine;
+                }
+            }
+
+            h4.status {
+                font-size: 1.6rem;
+                font-weight: 300;
+
+                span {
+                    font-size: 1.2rem;
+                    color: $blumine;
+
+                    &.tag {
+                        background-color: $cerulean-light;
+                        color: $white;
+                        font-weight: 400;
+
+                        &.active {
+                            background-color: $fruit-salad-light;
+                        }
+
+                        &.inactive {
+                            background-color: $mandy-light;
+                        }
+                    }
+                }
+            }
+        }
+
+        div.acceptability-map {
+            background-color: $off-white-light;
+
+            h4 {
+                font-size: 1.4rem;
+                font-weight: 400;
+                background-color: $off-white;
+            }
+
+            div.row {
+                &.header {
+                    background-color: $off-white;
+
+                    div {
+                        font-weight: 400;
+                    }
+                }
+
+                div {
+                    position: relative;
+
+                    span {
+                        color: $white;
+                        font-weight: 400;
+
+                        &.fsn {
+                            background-color: $fruit-salad-light;
+                        }
+
+                        &.synonym {
+                            background-color: $cerulean-light;
+                        }
+                    }
+
+                    button.info {
+                        background-color: transparent;
+                        position: absolute;
+                        top: 0;
+                        right: 1rem;
+                        font-weight: 300;
+                        color: $black;
+                        height: 2rem;
+                        width: 2rem;
+
+                        &:hover {
+                            background-color: $off-white-dark;
+                        }
+                    }
+                }
+
+                &.odd {
+                    background-color: $off-white;
+                }
+            }
+        }
+
+        div.axioms {
+            background: $anakiwa;
+
+            h4 {
+                font-size: 1.4rem;
+            }
+
+            div.row {
+                &.header {
+                    div {
+                        font-weight: 400;
+                    }
+                }
+
+                &.even {
+                    background-color: $anakiwa-light;
+                }
+
+                div {
+                    position: relative;
+
+                    button.info {
+                        background-color: transparent;
+                        position: absolute;
+                        top: 0;
+                        right: 1rem;
+                        font-weight: 300;
+                        color: $black;
+                        height: 2rem;
+                        width: 2rem;
+
+                        &:hover {
+                            background-color: $anakiwa-dark;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

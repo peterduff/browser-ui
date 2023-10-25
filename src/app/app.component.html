@@ -1,0 +1,64 @@
+<!--<router-outlet></router-outlet>-->
+
+<app-snomed-navbar></app-snomed-navbar>
+<div class="container-fluid g-0">
+    <div class="row g-0">
+        <div class="col-5 search border-end">
+            <mat-tab-group animationDuration="0ms">
+                <mat-tab label="SEARCH">
+                    <app-search></app-search>
+                </mat-tab>
+                <mat-tab label="TAXONOMY">
+                    <app-taxonomy></app-taxonomy>
+                </mat-tab>
+                <mat-tab label="ECL">
+                    <app-ecl></app-ecl>
+                </mat-tab>
+                <mat-tab label="FAVOURITES">
+                    <app-favourites></app-favourites>
+                </mat-tab>
+                <mat-tab label="REFSETS">
+                    <app-refsets></app-refsets>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="col-7 results">
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="3">
+                <mat-tab label="SUMMARY">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-summary></app-summary>
+                </mat-tab>
+                <mat-tab label="DETAILS">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-details></app-details>
+                </mat-tab>
+                <mat-tab label="DIAGRAM">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-diagram></app-diagram>
+                </mat-tab>
+                <mat-tab label="EXPRESSION">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-expression></app-expression>
+                </mat-tab>
+                <mat-tab label="REFSET">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-refset></app-refset>
+                </mat-tab>
+                <mat-tab label="MEMBERS">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-members></app-members>
+                </mat-tab>
+                <mat-tab label="HISTORY">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-history></app-history>
+                </mat-tab>
+                <mat-tab label="REFERENCES">
+                    <app-concept-utility-bar></app-concept-utility-bar>
+                    <app-references></app-references>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+<app-snomed-footer></app-snomed-footer>

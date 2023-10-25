@@ -1,0 +1,67 @@
+@import 'src/variables.scss';
+@import 'toastr';
+
+html {
+    font-size: 62.5%;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Roboto', 'Helvetica Neue', 'Arial', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: $black;
+    letter-spacing: 0.5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+h3 {
+    font-size: 1.6rem;
+    font-weight: 300;
+}
+
+h4 {
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+
+div, p, a, select, label {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+label {
+    margin-bottom: 0;
+}
+
+button, input, textarea {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    border: none;
+    resize: none;
+
+    &:focus, &:active {
+        outline: none !important;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.btn {
+        font-size: 1.4rem;
+        font-weight: 300;
+        letter-spacing: 1.5px;
+    }
+}

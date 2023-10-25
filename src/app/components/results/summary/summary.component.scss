@@ -1,0 +1,124 @@
+@import 'src/variables.scss';
+
+div#summary {
+    div.summary {
+        max-height: calc(100vh - 18.8rem);
+        overflow-x: scroll;
+
+        div.parents {
+            background: $off-white-light;
+
+            h4 {
+                font-size: 1.4rem;
+            }
+        }
+
+        div.concept {
+            background: $anakiwa;
+
+            div.definition-status {
+                background-color: $sea-buckthorn-light;
+                color: $white;
+                height: 2rem;
+                width: 2rem;
+                line-height: 2rem;
+            }
+
+            div.name {
+                padding-right: 6rem;
+                padding-left: 3rem;
+                position: relative;
+
+                div.definition-status {
+                    position: absolute;
+                    top: 1rem;
+                    left: 1rem;
+                }
+
+                h4 {
+                    font-size: 1.6rem;
+                    font-weight: 300;
+                }
+
+                button {
+                    position: absolute;
+                    top: 1rem;
+                    background-color: transparent;
+                    height: 2rem;
+                    width: 2rem;
+                    font-size: 1.4rem;
+
+                    &.dots {
+                        right: 1rem;
+                    }
+
+                    &.star {
+                        right: 4rem;
+                    }
+
+                    &:hover {
+                        background-color: $anakiwa-dark;
+                    }
+                }
+            }
+
+            h4.sctid {
+                font-size: 1.6rem;
+                font-weight: 300;
+
+                span {
+                    font-size: 1.2rem;
+                    color: $blumine;
+                }
+            }
+
+            h4.notation {
+                font-size: 1.4rem;
+                font-weight: 300;
+
+                span {
+                    font-size: 1.2rem;
+                    color: $blumine;
+                }
+            }
+
+            p.description {
+                font-size: 1.4rem;
+                font-weight: 300;
+
+                &.even {
+                    background-color: $anakiwa-light;
+                }
+
+                span {
+                    font-size: 1.2rem;
+                    color: $blumine;
+                }
+            }
+        }
+
+        div.axioms {
+            background: $anakiwa;
+
+            h4 {
+                font-size: 1.4rem;
+            }
+
+            div.axiom {
+                background-color: $anakiwa-light;
+
+                &.clear-background {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        div.children {
+            background: $off-white-light;
+
+            h4 {
+                font-size: 1.4rem;
+            }
+        }
+    }
+}

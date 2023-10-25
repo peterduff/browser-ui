@@ -1,0 +1,14 @@
+@import 'src/variables.scss';
+
+div#concept {
+    cursor: pointer;
+
+    div.definition-status {
+        background-color: $sea-buckthorn-light;
+        color: $white;
+        height: 2rem;
+        width: 2rem;
+        line-height: 2rem;
+    }
+}
+

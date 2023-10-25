@@ -1,0 +1,98 @@
+<div id="summary" class="container g-0">
+    <div *ngIf="activeConcept" class="row summary g-0">
+        <div class="col-12 px-3 pt-3">
+            <div class="m-3 p-3 rounded-3 parents">
+                <h4 class="mb-2">PARENTS</h4>
+                <ng-container *ngFor="let parent of activeParents">
+                    <div class="p-1">
+                        <app-concept [definitionStatus]="parent.definitionStatus!" [text]="parent.fsn?.term!"></app-concept>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="col-6 ps-3">
+            <div class="m-3 rounded-3 concept overflow-hidden">
+                <div class="name">
+                    <div class="definition-status rounded-circle px-2 me-2">
+                        <ng-container *ngIf="activeConcept.definitionStatus === 'FULLY_DEFINED'">
+                            <i class="fa-solid fa-bars"></i>
+                        </ng-container>
+                        <ng-container *ngIf="activeConcept.definitionStatus === 'PRIMITIVE'">
+                            &nbsp;
+                        </ng-container>
+                    </div>
+                    <h4 class="d-inline-block p-3 m-0">{{activeConcept.fsn?.term}}</h4>
+                    <button class="star rounded-circle border-0 p-0"><i class="fa-solid fa-star p-1"></i></button>
+                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                </div>
+                <h4 class="sctid px-3 py-2 m-0">
+                    <span class="pe-2">SCTID</span>
+                    {{activeConcept.conceptId}}
+                </h4>
+                <h4 class="notation px-3 py-2 m-0">
+                    {{activeConcept.conceptId}} |{{activeConcept.fsn?.term}}|
+                </h4>
+                <ng-container *ngFor="let description of activeConcept.descriptions! | active | alphabetical:'type'; let even = even">
+                    <p class="description px-3 py-2 m-0" [class.even]="even">
+                        <span class="pe-2">{{description.lang}}</span>
+                        {{description.term}}
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+
+        <div *ngIf="inferredView && activeConcept.relationships" class="col-6 pe-3">
+            <div class="m-3 p-3 rounded-3 axioms">
+                <ng-container *ngFor="let relationshipGroup of formatRelationships(activeConcept.relationships | active)">
+                    <ng-container *ngIf="relationshipGroup.groupId === 0">
+                        <div class="axiom py-2 px-3 rounded-3 clear-background">
+                            <ng-container *ngFor="let relationship of relationshipGroup.groups">
+                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="relationshipGroup.groupId !== 0">
+                        <div class="axiom m-3 py-2 px-3 rounded-3">
+                            <ng-container *ngFor="let relationship of relationshipGroup.groups">
+                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+
+        <div *ngIf="!inferredView && activeConcept.classAxioms![0].relationships" class="col-6 pe-3">
+            <div class="m-3 p-3 rounded-3 axioms">
+                <h4 class="mb-2">AXIOMS</h4>
+                <ng-container *ngFor="let relationshipGroup of formatRelationships(activeConcept.classAxioms![0].relationships | active)">
+                    <ng-container *ngIf="relationshipGroup.groupId === 0">
+                        <div class="axiom py-2 px-3 rounded-3 clear-background">
+                            <ng-container *ngFor="let relationship of relationshipGroup.groups">
+                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="relationshipGroup.groupId !== 0">
+                        <div class="axiom m-3 py-2 px-3 rounded-3">
+                            <ng-container *ngFor="let relationship of relationshipGroup.groups">
+                                <p class="m-0">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-2"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="col-12 px-3 mb-3">
+            <div class="m-3 p-3 rounded-3 children">
+                <h4 class="mb-2">CHILDREN</h4>
+                <ng-container *ngFor="let children of activeChildren">
+                    <div class="p-1">
+                        <app-concept [definitionStatus]="children.definitionStatus!" [text]="children.fsn?.term!"></app-concept>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

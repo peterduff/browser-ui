@@ -1,0 +1,11 @@
+<div id="concept">
+    <div class="definition-status d-inline-block rounded-circle px-2 me-2">
+        <ng-container *ngIf="definitionStatus === 'FULLY_DEFINED'">
+            <i class="fa-solid fa-bars"></i>
+        </ng-container>
+        <ng-container *ngIf="definitionStatus === 'PRIMITIVE'">
+            &nbsp;
+        </ng-container>
+    </div>
+    {{text}}
+</div>

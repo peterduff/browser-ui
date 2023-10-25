@@ -1,0 +1,53 @@
+<div id="expression" class="container g-0">
+    <div *ngIf="activeConcept && owlExpressionSet" class="row pre-coordinated g-0">
+        <div class="col-12 px-3 pt-3">
+            <div class="m-3 rounded-3 expression overflow-hidden">
+                <div class="header">
+                    <h4 class="px-3 pt-3 pb-2 mb-0">Pre-Coordinated Expression</h4>
+                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                </div>
+                <div class="body">
+                    <p class="code p-3 mb-0">{{owlExpressionSet.referencedComponent.id}} | {{owlExpressionSet.referencedComponent.fsn?.term}}|</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="activeConcept && owlExpressionSet" class="row axiom g-0">
+        <div class="col-12 px-3">
+            <div class="m-3 rounded-3 expression overflow-hidden">
+                <div class="header">
+                    <h4 class="px-3 pt-3 pb-2 mb-0">Expression from Class Axiom Definition</h4>
+                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                </div>
+                <div class="body">
+                    <p class="code p-3 mb-0">{{owlExpressionSet.additionalFields.owlExpression}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="activeConcept && owlExpressionSet" class="row inferred g-0">
+        <div class="col-12 px-3 pb-3">
+            <div class="m-3 rounded-3 expression overflow-hidden">
+                <div class="header">
+                    <h4 class="px-3 pt-3 pb-2 mb-0">Expression from Inferred Concept Definition</h4>
+                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                </div>
+                <div class="body">
+                    <p class="code p-3 mb-0">{{owlExpressionSet.additionalFields.owlExpression}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="activeConcept && owlExpressionSet" class="row footnote g-0">
+        <div class="col-12 px-3 pb-3">
+            <div class="mx-4 mb-3">
+                <p>These expressions are generated according to the ABNF syntax found in the "SNOMED CT Compositional Grammar Specification and Guide" (<a href="http://snomed.org/compgrammar">http://snomed.org/compgrammar</a>)</p>
+                <p>SNOMED CT Compositional Grammar is a lightweight syntax for the representation of SNOMED CT expressions. SNOMED CT expressions are used in Electronic Health Records (EHRs) to represent clinical meanings in a way that enables automatic interpretation. They are also carried in messages, used to define precoordinated concepts and used to represent links between SNOMED CT and other terminologies.</p>
+                <p>These expressions are generated as an example from the published concept definition, a Pre-coordinated Expression is direct reference to the concept, and Post-coordinated expressions are generated from the stated or inferred relationships. In a Sufficiently Defined concept, all three will be equivalent.</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+<div id="search" class="container g-0">
+    <div class="row g-0">
+        <div class="col-12 options d-inline-flex">
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{searchType}}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">WHOLE WORD</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">PREFIXES</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{searchStatus}}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">ACTIVE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">INACTIVE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">ANY</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ng-container *ngIf="searchAll; else searchAllEmpty">
+                        {{searchAll}}
+                    </ng-container>
+                    <ng-template #searchAllEmpty>
+                        ALL
+                    </ng-template>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">ALL</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">NO DEFINITIONS</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">FSN</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">PREFERRED TERMS</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    <ng-container *ngIf="searchLanguage.length; else searchLanguageEmpty">
+                        <ng-container *ngFor="let lang of searchLanguage; let last = last">
+                            {{last ? lang : lang + ', '}}
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #searchLanguageEmpty>
+                        -
+                    </ng-template>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item px-3 py-2" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    US English
+                                </label>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item px-3 py-2" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                                <label class="form-check-label" for="flexCheckDefault2">
+                                    GB English
+                                </label>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 px-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{searchGrouping ? 'GROUP BY CONCEPT' : 'NO GROUPING'}}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">NO GROUPING</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">GROUP BY CONCEPT</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row g-0">
+        <div class="col-12 searchbar d-inline-flex">
+            <div class="input-group input-group-lg mx-3 mb-3">
+                <span class="magnifying-glass"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" class="form-control rounded-pill" placeholder="Please type 3 characters or more..." [(ngModel)]="inputText" (keyup)="searchGateway(inputText)" (change)="onSearch(inputText)">
+                <span class="cross"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="btn history rounded-circle border-0 me-3" data-bs-toggle="dropdown"><i class="fa-solid fa-clock-rotate-left"></i></button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item px-3 py-2" href="#">Action</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">Another action</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="searchDescriptions" class="row g-0">
+        <div class="results">
+            <table class="table table-bordered table-striped table-hover m-0">
+                <thead>
+                <tr>
+                    <th class="p-2 ps-4 fw-normal">PREFERRED TERM</th>
+                    <th class="p-2 ps-4 fw-normal">FULLY SPECIFIED NAME</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of searchDescriptions.items" (click)="findConcept(item.concept)">
+                    <td class="p-3">
+                        <app-concept [definitionStatus]="item.concept.definitionStatus" [text]="item.concept?.pt?.term"></app-concept>
+                    </td>
+
+                    <td class="p-3">{{item.concept?.fsn?.term}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-5 filters fixed-bottom d-inline-flex">
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ALL LANGUAGES
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">ENGLISH</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">SPANISH</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ALL MODULES
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">CORE</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ALL REFSETS
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">OWL Axiom Refset</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">ICD-10 Extended Map</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">Global Patient Set</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 px-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    ALL TAGS
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item px-3 py-2" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    disorder
+                                </label>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item px-3 py-2" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
+                                <label class="form-check-label" for="flexCheckDefault2">
+                                    finding
+                                </label>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
