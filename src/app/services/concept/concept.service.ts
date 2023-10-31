@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
 import {Concept} from "../../models/concept";
 import {HttpClient} from "@angular/common/http";
 import {Options} from "../../models/options";
@@ -155,6 +155,19 @@ export class ConceptService {
 
     httpGetConcept(conceptId: string, options?: Options): Observable<Concept> {
         return this.http.get<Concept>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId);
+    }
+
+    httpGetConcepts(options: Options): Observable<Concept[]> {
+
+        let params = '';
+
+        if(options.ecl) {
+            params += '&ecl=' + encodeURI(options.ecl);
+        }
+
+        return this.http.get<Concept[]>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts?' + params).pipe(map((data: any) => {
+            return data.items;
+        }));
     }
 
     httpGetChildren(conceptId: string, options: Options): Observable<Concept[]> {

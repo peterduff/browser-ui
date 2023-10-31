@@ -22,4 +22,5 @@ export class ReferencesComponent {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.referencesSubscription = this.referencesService.getReferences().subscribe(data => this.references = data);
     }
+
 }

@@ -1,1 +1,94 @@
-<p>ecl works!</p>
+<div id="ecl" class="container g-0">
+    <div class="row ecl g-0">
+        <div class="col-12 pt-3 px-3 pb-2">
+            <textarea class="rounded-3 border w-100" [(ngModel)]="ecl" placeholder="Enter ECL here..."></textarea>
+        </div>
+        <div class="col-12">
+            <button class="wizard rounded-3 border-0 px-3 py-2 mx-3 mb-3">WIZARD</button>
+            <button class="execute float-end rounded-3 border-0 px-3 py-2 mx-3 mb-3" (click)="executeEcl()">EXECUTE</button>
+            <button class="clear float-end rounded-3 border-0 px-3 py-2 mb-3" (click)="ecl = ''">CLEAR</button>
+        </div>
+    </div>
+    <div class="row header g-0">
+        <div class="col-8">
+            <p class="m-0 p-3">FULLY SPECIFIED NAME</p>
+        </div>
+        <div class="col-4">
+            <p class="m-0 p-3">CONCEPT ID</p>
+        </div>
+    </div>
+    <div class="results">
+        <ng-container *ngFor="let result of eclResults; let odd = odd">
+            <div class="row body border-bottom g-0" [class.odd]="odd" (click)="findConcept(result)">
+                <div class="col-8 border-end">
+                    <div class="m-0 p-3">
+                        <app-concept [definitionStatus]="result.definitionStatus!" [text]="result?.fsn?.term!"></app-concept>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <p class="m-0 p-3">{{result.conceptId}}</p>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="row g-0">
+        <div class="col-5 searchbar fixed-bottom d-inline-flex">
+            <div class="input-group input-group-lg m-3">
+                <span class="magnifying-glass"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" class="form-control rounded-pill" placeholder="Filter the results..." [(ngModel)]="filter">
+                <span class="cross"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="row g-0">
+        <div class="col-5 filters fixed-bottom d-inline-flex">
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    DESCRIPTION TYPE
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">ALPHA</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">BETA</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 ps-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    LANGUAGE REFSETS
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">ALPHA</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">BETA</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">CHARLIE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">DELTA</a></li>
+                </ul>
+            </div>
+            <div class="dropdown flex-fill py-3 px-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    MODULES
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li>
+                        <a class="dropdown-item px-3 py-2" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
+                                <label class="form-check-label" for="flexCheckDefault3">
+                                    core
+                                </label>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item px-3 py-2" href="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault4">
+                                <label class="form-check-label" for="flexCheckDefault4">
+                                    owl
+                                </label>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -76,6 +76,7 @@ export class SnomedNavbarComponent implements OnInit {
                         conceptId: '22298006'
                         // conceptId: '1222625002'
                         // conceptId: '293584003'
+                        // conceptId: '900000000000538005'
                     }
 
                     this.findConcept(concept);

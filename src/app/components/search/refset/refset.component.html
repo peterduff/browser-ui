@@ -1,1 +1,76 @@
-<p>refsets2 works!</p>
+<div id="refset">
+    <div class="row g-0">
+        <div class="col-12 options d-inline-flex">
+            <div class="dropdown p-3">
+                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    ALL
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                    <li><a class="dropdown-item px-3 py-2" href="#">ALL</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">ASSOCIATION</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">ATTRIBUTE VALUE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">DESCRIPTION FORMAT REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">EXTENDED MAP</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">LANGAUGE TYPE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">MODULE DEPENDENCY</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM ATTRIBUTE DOMAIN REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM ATTRIBUTE RANGE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM DOMAIN REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM MODULE SCOPE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">OWL EXPRESSION TYPE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">REFERENCE SET DESCRIPTOR</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">SIMPLE MAP FROM SNOMED CT</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">SIMPLE MAP TO SNOMED CT</a></li>
+                    <li><a class="dropdown-item px-3 py-2" href="#">SIMPLE TYPE REFERENCE SET</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row header g-0">
+        <div class="col-10">
+            <p class="m-0 px-3 pb-3">REFSET</p>
+        </div>
+        <div class="col-2">
+            <p class="m-0 px-3 pb-3 text-end">MEMBERS</p>
+        </div>
+    </div>
+    <ng-container *ngFor="let member of members | active | alphabetical:'fsn':'term'">
+        <app-node [node]="member" [count]="memberCounts[member.conceptId]" (emitFindConcept)="findConcept($event)" (emitFindChildren)="findChildren($event)"></app-node>
+<!--        <div class="row body g-0" (click)="findConcept(member)">-->
+<!--            <div class="col-10">-->
+<!--                <input type="checkbox" #expanded hidden>-->
+<!--                <div class="p-2">-->
+<!--                    <i *ngIf="expanded.value !== 'expanded'" class="fa-solid fa-chevron-right px-2" (click)="expanded.value = 'expanded'"></i>-->
+<!--                    <i *ngIf="expanded.value === 'expanded'" class="fa-solid fa-chevron-down px-2" (click)="expanded.value = 'collapsed'"></i>-->
+<!--                    <div class="ps-5">-->
+<!--                        <app-concept [definitionStatus]="member.definitionStatus!" [text]="member.fsn?.term!"></app-concept>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-2">-->
+<!--                <p class="text-end p-2 pe-4 m-0">{{memberCounts[member.conceptId]}}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <ng-container *ngIf="expanded.value === 'expanded'">-->
+<!--            <div class="ps-3">-->
+<!--                <ng-container *ngFor="let member of members | active | alphabetical:'fsn':'term'">-->
+<!--                    <div class="row body g-0" (click)="findConcept(member)">-->
+<!--                        <div class="col-10">-->
+<!--                            <input type="checkbox" #expanded hidden>-->
+<!--                            <div class="p-2">-->
+<!--                                <i *ngIf="expanded.value !== 'expanded'" class="fa-solid fa-chevron-right px-2" (click)="expanded.value = 'expanded'"></i>-->
+<!--                                <i *ngIf="expanded.value === 'expanded'" class="fa-solid fa-chevron-down px-2" (click)="expanded.value = 'collapsed'"></i>-->
+<!--                                <div class="ps-5">-->
+<!--                                    <app-concept [definitionStatus]="member.definitionStatus!" [text]="member.fsn?.term!"></app-concept>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-2">-->
+<!--                            <p class="text-end p-2 pe-4 m-0">{{memberCounts[member.conceptId]}}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </ng-container>-->
+<!--            </div>-->
+<!--        </ng-container>-->
+    </ng-container>
+</div>

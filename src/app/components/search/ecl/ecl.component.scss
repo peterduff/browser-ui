@@ -1,0 +1,146 @@
+@import 'src/variables.scss';
+
+div#ecl {
+    //height: calc(100vh - 13.8rem);
+    //overflow-x: scroll;
+
+    div.ecl {
+        background-color: $off-white-light;
+
+        textarea {
+            font-size: 1.4rem;
+            height: 16rem;
+        }
+
+        button {
+            color: $white;
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+
+            &.wizard {
+                background-color: $cerulean;
+
+                &:hover {
+                    background-color: $cerulean-dark;
+                }
+            }
+
+            &.clear {
+                background-color: $cerulean;
+
+                &:hover {
+                    background-color: $cerulean-dark;
+                }
+            }
+
+            &.execute {
+                background-color: $fruit-salad;
+
+                &:hover {
+                    background-color: $fruit-salad-dark;
+                }
+            }
+        }
+    }
+
+    div.header {
+        background-color: $off-white;
+
+        p {
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+    }
+
+    div.results {
+        height: calc(100vh - 49rem);
+        overflow-x: scroll;
+    }
+
+    div.body {
+        position: relative;
+
+        p {
+            font-size: 1.4rem;
+        }
+
+        &.odd {
+            background-color: $off-white-light;
+        }
+
+        &.body {
+            &:hover {
+                background-color: $anakiwa;
+                cursor: pointer;
+            }
+        }
+
+        button.cross {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            width: 2rem;
+            height: 2rem;
+            font-size: 1.6rem;
+            //color: $mandy;
+
+            &:hover {
+                color: $mandy;
+            }
+        }
+    }
+
+    div.searchbar {
+        background: $off-white-light;
+        bottom: 8rem;
+
+        div.input-group {
+            position: relative;
+
+            input {
+                padding-left: 4rem;
+                padding-right: 4rem;
+            }
+
+            span {
+                position: absolute;
+                font-size: 1.4rem;
+                z-index: 400;
+
+                &.magnifying-glass {
+                    left: 1rem;
+                    top: 0.5rem;
+                }
+
+                &.cross {
+                    right: 1rem;
+                    top: 0.5rem;
+                }
+            }
+        }
+    }
+
+    div.filters {
+        background: $off-white-light;
+        bottom: 4rem;
+
+        button {
+            background-color: $cerulean;
+            color: $white;
+
+            &:hover {
+                background-color: $cerulean-dark;
+            }
+        }
+    }
+
+    ul {
+        li {
+            a, label, input {
+                font-size: 1.4rem;
+                font-weight: 400;
+            }
+        }
+    }
+}

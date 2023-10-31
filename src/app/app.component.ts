@@ -28,6 +28,68 @@ export class AppComponent implements OnInit {
 
         this.assignFavicon();
     }
+
+    onTabSwitch(index: number) {
+        switch(index) {
+            case 0:
+                this.setupSummaryTab();
+                return;
+            case 1:
+                this.setupDetailsTab();
+                return;
+            case 2:
+                this.setupDiagramTab();
+                return;
+            case 3:
+                this.setupExpressionTab();
+                return;
+            case 4:
+                this.setupRefsetsTab();
+                return;
+            case 5:
+                this.setupMembersTab();
+                return;
+            case 6:
+                this.setupHistoryTab();
+                return;
+            case 7:
+                this.setupReferencesTab();
+                return;
+        }
+    }
+
+    setupSummaryTab() {
+        console.log('setupSummaryTab');
+    }
+
+    setupDetailsTab() {
+        console.log('setupDetailsTab');
+    }
+
+    setupDiagramTab() {
+        console.log('setupDiagramTab');
+    }
+
+    setupExpressionTab() {
+        console.log('setupExpressionTab');
+    }
+
+    setupRefsetsTab() {
+        console.log('setupRefsetsTab');
+    }
+
+    setupMembersTab() {
+        console.log('setupMembersTab');
+    }
+
+    setupHistoryTab() {
+        console.log('setupHistoryTab');
+    }
+
+    setupReferencesTab() {
+        console.log('setupReferencesTab');
+    }
+
     assignFavicon() {
         switch (this.environment) {
             case 'local':

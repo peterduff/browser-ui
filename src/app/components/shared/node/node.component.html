@@ -1,0 +1,27 @@
+<div id="node">
+    <div class="row body g-0" (click)="findConcept(node)">
+        <div class="col-10">
+            <input type="checkbox" #expanded hidden>
+            <div class="p-2">
+                <i *ngIf="!node.children" class="fa-solid fa-minus px-2"></i>
+                <i *ngIf="expanded.value !== 'expanded' && node.children" class="fa-solid fa-chevron-right px-2" (click)="expanded.value = 'expanded'; findChildren(node)"></i>
+                <i *ngIf="expanded.value === 'expanded' && node.children" class="fa-solid fa-chevron-down px-2" (click)="expanded.value = 'collapsed'"></i>
+                <div class="ps-5">
+                    <app-concept [definitionStatus]="node.definitionStatus" [text]="node.referencedComponent ? node.referencedComponent?.fsn?.term : node.fsn?.term"></app-concept>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="count">
+            <div class="col-2">
+                <p class="text-end p-2 pe-4 m-0">{{count}}</p>
+            </div>
+        </ng-container>
+    </div>
+    <ng-container *ngIf="expanded.value === 'expanded'">
+        <div class="ps-3">
+            <ng-container *ngFor="let subNode of node.children | active | alphabetical:'fsn':'term':true">
+                <app-node [node]="subNode" [count]="false" (emitFindConcept)="findConcept($event)" (emitFindChildren)="findChildren($event)"></app-node>
+            </ng-container>
+        </div>
+    </ng-container>
+</div>

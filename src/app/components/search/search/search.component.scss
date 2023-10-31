@@ -1,7 +1,7 @@
 @import 'src/variables.scss';
 
 div#search {
-    height: calc(100vh - 13.8rem);
+    //height: calc(100vh - 13.8rem);
 
     div.options {
         background: $off-white-light;
@@ -58,14 +58,28 @@ div#search {
         height: calc(100vh - 27.9rem);
         overflow-x: scroll;
 
-        table {
-            td {
-                div.definition-status {
-                    background-color: $sea-buckthorn-light;
-                    color: $white;
-                    height: 2rem;
-                    width: 2rem;
-                    line-height: 2rem;
+        div.header {
+            background-color: $off-white;
+
+            p {
+                font-size: 1.4rem;
+                font-weight: 400;
+            }
+        }
+
+        div.body {
+            p {
+                font-size: 1.4rem;
+            }
+
+            &.odd {
+                background-color: $off-white-light;
+            }
+
+            &.body {
+                &:hover {
+                    background-color: $anakiwa;
+                    cursor: pointer;
                 }
             }
         }

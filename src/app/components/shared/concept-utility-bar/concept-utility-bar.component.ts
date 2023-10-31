@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {Concept} from "../../../models/concept";
 import {Subscription} from "rxjs";
 import {ConceptService} from "../../../services/concept/concept.service";
@@ -16,6 +16,8 @@ export class ConceptUtilityBarComponent {
     inferredView!: boolean;
     inferredViewSubscription: Subscription;
 
+    @Output() emitter = new EventEmitter<any>();
+
     constructor(private conceptService: ConceptService,
                 private membersService: MembersService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
@@ -24,6 +26,7 @@ export class ConceptUtilityBarComponent {
 
     setInferredView(inferredView: boolean): void {
         this.conceptService.setInferredView(inferredView);
+        this.emitter.emit();
     }
 
     findConcept(concept: Concept): void {

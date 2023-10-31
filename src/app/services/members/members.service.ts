@@ -17,6 +17,7 @@ export class MembersService {
     activeVersionSubscription: Subscription;
 
     private members = new Subject<ReferenceSet[]>();
+    private memberCounts = new Subject<Object[]>();
     private referenceSets = new Subject<ReferenceSet[]>();
     private owlExpressionSet = new Subject<ReferenceSet>();
 
@@ -34,8 +35,17 @@ export class MembersService {
         return this.members.asObservable();
     }
 
+    setMemberCounts(memberCounts: Object[]): void {
+        this.memberCounts.next(memberCounts);
+    }
+
+    getMemberCounts(): Observable<Object[]> {
+        return this.memberCounts.asObservable();
+    }
+
     httpGetMembers(): Observable<ReferenceSet[]> {
         return this.http.get('/snowstorm/snomed-ct/browser/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/members?active=true').pipe(map((data: any) => {
+            this.setMemberCounts(data.memberCountsByReferenceSet);
             return data.referenceSets;
         }));
     }
@@ -50,6 +60,12 @@ export class MembersService {
 
     httpGetReferenceSets(referencedComponentId: string): Observable<ReferenceSet[]> {
         return this.http.get('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/members?active=true&referencedComponentId=' + referencedComponentId).pipe(map((data: any) => {
+            return data.items;
+        }));
+    }
+
+    httpGetReferenceSetChildren(refsetId: string): Observable<ReferenceSet[]> {
+        return this.http.get('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/members?active=true&referenceSet=' + refsetId).pipe(map((data: any) => {
             return data.items;
         }));
     }

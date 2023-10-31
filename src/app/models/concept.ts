@@ -10,7 +10,8 @@ export class Concept {
         public pt?: PT,
         public descriptions?: Description[],
         public classAxioms?: ClassAxiom[],
-        public relationships?: Relationship[]
+        public relationships?: Relationship[],
+        public children?: Concept[]
     ) {
     }
 }

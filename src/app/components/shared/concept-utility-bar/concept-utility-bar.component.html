@@ -1,7 +1,7 @@
 <div id="concept-utility-bar" class="row g-0">
     <div class="col-6 options">
         <div class="m-3 pt-2 ps-3 toggle">
-            <mat-slide-toggle  [hideIcon]="true" [color]="'primary'" [checked]="inferredView" [labelPosition]="'before'" (change)=" setInferredView(!inferredView); findConcept(activeConcept!)">STATED</mat-slide-toggle>
+            <mat-slide-toggle  [hideIcon]="true" [color]="'primary'" [checked]="inferredView" [labelPosition]="'before'" (change)="setInferredView(!inferredView)">STATED</mat-slide-toggle>
             <span class="stated pe-2 py-2">INFERRED</span>
         </div>
     </div>

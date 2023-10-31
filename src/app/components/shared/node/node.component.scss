@@ -1,0 +1,27 @@
+@import 'src/variables.scss';
+
+div#node {
+    div.body {
+        position: relative;
+
+        i {
+            position: absolute;
+            top: 0.75rem;
+            left: 1rem;
+            font-size: 1.4rem;
+            color: $blumine;
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: $blumine;
+        }
+
+        &.body {
+            &:hover {
+                background-color: $anakiwa;
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -42,6 +42,7 @@ import { AttributeRefsetsPipe } from './pipes/attribute-refsets/attribute-refset
 import { AssociationRefsetsPipe } from './pipes/association-refsets/association-refsets.pipe';
 import {HistoryService} from "./services/history/history.service";
 import {ReferencesService} from "./services/references/references.service";
+import { NodeComponent } from './components/shared/node/node.component';
 
 @NgModule({
     declarations: [
@@ -71,7 +72,8 @@ import {ReferencesService} from "./services/references/references.service";
         SimpleRefsetsPipe,
         MapRefsetsPipe,
         AttributeRefsetsPipe,
-        AssociationRefsetsPipe
+        AssociationRefsetsPipe,
+        NodeComponent
     ],
     imports: [
         BrowserModule,

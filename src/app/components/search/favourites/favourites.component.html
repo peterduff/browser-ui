@@ -7,8 +7,8 @@
             <p class="m-0 p-3">CONCEPT ID</p>
         </div>
     </div>
-    <ng-container *ngFor="let favourite of favourites; let odd = odd" (click)="findConcept(favourite)">
-        <div class="row body border-bottom g-0" [class.odd]="odd">
+    <ng-container *ngFor="let favourite of favourites; let odd = odd">
+        <div class="row body border-bottom g-0" [class.odd]="odd" (click)="findConcept(favourite)">
             <div class="col-8 border-end">
                 <div class="m-0 p-3">
                     <app-concept [definitionStatus]="favourite.definitionStatus!" [text]="favourite?.fsn?.term!"></app-concept>

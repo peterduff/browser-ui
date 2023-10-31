@@ -1,0 +1,54 @@
+@import 'src/variables.scss';
+
+div#refset {
+    height: calc(100vh - 13.8rem);
+    overflow-x: scroll;
+
+    div.options {
+        background: $off-white-light;
+
+        button {
+            background-color: $fruit-salad;
+            color: $white;
+            font-weight: 400;
+            min-width: 12rem;
+
+            &:hover {
+                background-color: $fruit-salad-dark;
+            }
+        }
+    }
+
+    div.header {
+        background-color: $off-white-light;
+
+        p {
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+    }
+
+    div.body {
+        position: relative;
+
+        i {
+            position: absolute;
+            top: 0.75rem;
+            left: 1rem;
+            font-size: 1.4rem;
+            color: $blumine;
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: $blumine;
+        }
+
+        &.body {
+            &:hover {
+                background-color: $anakiwa;
+                cursor: pointer;
+            }
+        }
+    }
+}
