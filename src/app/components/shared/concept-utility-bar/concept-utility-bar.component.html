@@ -10,11 +10,14 @@
             <button class="btn history rounded-circle border-0"><i class="fa-solid fa-gear"></i></button>
         </div>
         <div class="dropdown py-3">
-            <button type="button" class="btn history rounded-circle border-0" data-bs-toggle="dropdown"><i class="fa-solid fa-clock-rotate-left"></i></button>
+            <button type="button" class="btn history rounded-circle border-0 me-3" data-bs-toggle="dropdown"><i class="fa-solid fa-clock-rotate-left"></i></button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item px-3 py-2" href="#">Action</a></li>
-                <li><a class="dropdown-item px-3 py-2" href="#">Another action</a></li>
-                <li><a class="dropdown-item px-3 py-2" href="#">Something else here</a></li>
+                <ng-container *ngIf="!conceptHistory?.length">
+                    <li><a class="dropdown-item px-3 py-2">Concept history empty</a></li>
+                </ng-container>
+                <ng-container *ngFor="let concept of conceptHistory">
+                    <li><a class="dropdown-item history px-3 py-2" (click)="findConcept(concept)">{{concept?.pt?.term}}</a></li>
+                </ng-container>
             </ul>
         </div>
     </div>

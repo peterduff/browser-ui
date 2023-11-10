@@ -34,12 +34,16 @@
                             "@angular/material/prebuilt-themes/indigo-pink.css",
                             "./node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "./node_modules/@fortawesome/fontawesome-free/css/all.css",
+                            "./node_modules/flag-icons/css/flag-icons.min.css",
                             "src/theme.scss",
                             "src/styles.scss"
                         ],
                         "scripts": [
                             "./node_modules/@popperjs/core/dist/umd/popper.min.js",
-                            "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+                            "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "./node_modules/jquery/dist/jquery.min.js",
+                            "src/js/drawConceptDiagram.js",
+                            "src/js/jquery.svg.js"
                         ]
                     },
                     "configurations": {

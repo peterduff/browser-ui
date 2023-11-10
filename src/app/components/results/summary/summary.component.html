@@ -1,10 +1,20 @@
 <div id="summary" class="container g-0">
+    <ng-container *ngIf="!conceptLoading && !activeConcept">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="conceptLoading">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
     <div *ngIf="activeConcept" class="row summary g-0">
         <div class="col-12 px-3 pt-3">
             <div class="m-3 p-3 rounded-3 parents">
                 <h4 class="mb-2">PARENTS</h4>
                 <ng-container *ngFor="let parent of activeParents">
-                    <div class="p-1">
+                    <div class="p-1" (click)="findConcept(parent)">
                         <app-concept [definitionStatus]="parent.definitionStatus!" [text]="parent.fsn?.term!"></app-concept>
                     </div>
                 </ng-container>
@@ -23,7 +33,16 @@
                     </div>
                     <h4 class="d-inline-block p-3 m-0">{{activeConcept.fsn?.term}}</h4>
                     <button class="star rounded-circle border-0 p-0" (click)="addToFavourites(activeConcept)"><i class="fa-solid fa-star p-1"></i></button>
-                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                    <div class="dots dropdown">
+                        <button class="dots rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.conceptId); copySuccess()">Copy Concept ID</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.fsn?.term!); copySuccess()">Copy FSN</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.conceptId + ' |' + activeConcept.fsn?.term! + '|'); copySuccess()">Copy FSN and Concept ID</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.conceptId + ' |' + activeConcept.pt?.term! + '|'); copySuccess()">Copy PT and Concept ID</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="copyUrl(); copySuccess()">Copy Link</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <h4 class="sctid px-3 py-2 m-0">
                     <span class="pe-2">SCTID</span>
@@ -53,6 +72,9 @@
                     </ng-container>
                     <ng-container *ngIf="relationshipGroup.groupId !== 0">
                         <div class="axiom m-3 py-2 px-3 rounded-3">
+                            <ng-container *ngIf="!relationshipGroup.groups.length">
+                                <p class="mb-0">No Attributes</p>
+                            </ng-container>
                             <ng-container *ngFor="let relationship of relationshipGroup.groups">
                                 <p class="mb-1">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-3"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
                             </ng-container>
@@ -75,6 +97,9 @@
                     </ng-container>
                     <ng-container *ngIf="relationshipGroup.groupId !== 0">
                         <div class="axiom m-3 py-2 px-3 rounded-3">
+                            <ng-container *ngIf="!relationshipGroup.groups.length">
+                                <p class="mb-0">No Attributes</p>
+                            </ng-container>
                             <ng-container *ngFor="let relationship of relationshipGroup.groups">
                                 <p class="mb-1">{{relationship.type.pt.term}}<i class="fa-solid fa-arrow-right px-3"></i>{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target.pt.term}}</p>
                             </ng-container>
@@ -88,7 +113,7 @@
             <div class="m-3 p-3 rounded-3 children">
                 <h4 class="mb-2">CHILDREN</h4>
                 <ng-container *ngFor="let children of activeChildren">
-                    <div class="p-1">
+                    <div class="p-1" (click)="findConcept(children)">
                         <app-concept [definitionStatus]="children.definitionStatus!" [text]="children.fsn?.term!"></app-concept>
                     </div>
                 </ng-container>

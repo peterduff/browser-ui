@@ -122,6 +122,32 @@ nav {
                 }
             }
         }
+
+        &.info {
+            li {
+                a {
+                    min-width: auto;
+                    height: auto;
+                }
+            }
+        }
+
+        &.flags {
+            li {
+                a {
+                    min-width: auto;
+
+                    &.dropdown-item {
+                        width: 20rem;
+                        height: auto;
+
+                        &.text {
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     div.user {

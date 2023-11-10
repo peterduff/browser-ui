@@ -34,43 +34,12 @@
             <p class="m-0 px-3 pb-3 text-end">MEMBERS</p>
         </div>
     </div>
+    <ng-container *ngIf="!members">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
     <ng-container *ngFor="let member of members | active | alphabetical:'fsn':'term'">
-        <app-node [node]="member" [count]="memberCounts[member.conceptId]" (emitFindConcept)="findConcept($event)" (emitFindChildren)="findChildren($event)"></app-node>
-<!--        <div class="row body g-0" (click)="findConcept(member)">-->
-<!--            <div class="col-10">-->
-<!--                <input type="checkbox" #expanded hidden>-->
-<!--                <div class="p-2">-->
-<!--                    <i *ngIf="expanded.value !== 'expanded'" class="fa-solid fa-chevron-right px-2" (click)="expanded.value = 'expanded'"></i>-->
-<!--                    <i *ngIf="expanded.value === 'expanded'" class="fa-solid fa-chevron-down px-2" (click)="expanded.value = 'collapsed'"></i>-->
-<!--                    <div class="ps-5">-->
-<!--                        <app-concept [definitionStatus]="member.definitionStatus!" [text]="member.fsn?.term!"></app-concept>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-2">-->
-<!--                <p class="text-end p-2 pe-4 m-0">{{memberCounts[member.conceptId]}}</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <ng-container *ngIf="expanded.value === 'expanded'">-->
-<!--            <div class="ps-3">-->
-<!--                <ng-container *ngFor="let member of members | active | alphabetical:'fsn':'term'">-->
-<!--                    <div class="row body g-0" (click)="findConcept(member)">-->
-<!--                        <div class="col-10">-->
-<!--                            <input type="checkbox" #expanded hidden>-->
-<!--                            <div class="p-2">-->
-<!--                                <i *ngIf="expanded.value !== 'expanded'" class="fa-solid fa-chevron-right px-2" (click)="expanded.value = 'expanded'"></i>-->
-<!--                                <i *ngIf="expanded.value === 'expanded'" class="fa-solid fa-chevron-down px-2" (click)="expanded.value = 'collapsed'"></i>-->
-<!--                                <div class="ps-5">-->
-<!--                                    <app-concept [definitionStatus]="member.definitionStatus!" [text]="member.fsn?.term!"></app-concept>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="col-2">-->
-<!--                            <p class="text-end p-2 pe-4 m-0">{{memberCounts[member.conceptId]}}</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </ng-container>-->
-<!--            </div>-->
-<!--        </ng-container>-->
+        <app-members-node [node]="member" [count]="false" (emitFindConcept)="findConcept($event)"></app-members-node>
     </ng-container>
 </div>

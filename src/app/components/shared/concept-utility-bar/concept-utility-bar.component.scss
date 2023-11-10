@@ -29,4 +29,20 @@ div#concept-utility-bar {
             }
         }
     }
+
+    ul {
+        li {
+            a, label, input {
+                font-size: 1.4rem;
+                font-weight: 400;
+
+                &.history {
+                    &:hover {
+                        color: $cerulean-dark;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
 }

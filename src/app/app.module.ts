@@ -43,6 +43,16 @@ import { AssociationRefsetsPipe } from './pipes/association-refsets/association-
 import {HistoryService} from "./services/history/history.service";
 import {ReferencesService} from "./services/references/references.service";
 import { NodeComponent } from './components/shared/node/node.component';
+import {TaxonomyService} from "./services/taxonomy/taxonomy.service";
+import { ParentNodeComponent } from './components/shared/parent-node/parent-node.component';
+import { NodeGraphComponent } from './components/results/node-graph/node-graph.component';
+import { MembersNodeComponent } from './components/shared/members-node/members-node.component';
+import { RefsetAlphabeticalPipe } from './pipes/refset-alphabetical/refset-alphabetical.pipe';
+import {ClipboardModule} from "ngx-clipboard";
+import {ToastrModule} from "ngx-toastr";
+import {ModalComponent} from "./components/modal/modal.component";
+import {DiagramService} from "./services/diagram/diagram.service";
+import {NgxEchartsModule} from "ngx-echarts";
 
 @NgModule({
     declarations: [
@@ -73,7 +83,12 @@ import { NodeComponent } from './components/shared/node/node.component';
         MapRefsetsPipe,
         AttributeRefsetsPipe,
         AssociationRefsetsPipe,
-        NodeComponent
+        NodeComponent,
+        ParentNodeComponent,
+        NodeGraphComponent,
+        MembersNodeComponent,
+        RefsetAlphabeticalPipe,
+        ModalComponent
     ],
     imports: [
         BrowserModule,
@@ -82,7 +97,12 @@ import { NodeComponent } from './components/shared/node/node.component';
         AppRoutingModule,
         MatTabsModule,
         MatSlideToggleModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        ClipboardModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        })
     ],
     providers: [
         AuthenticationService,
@@ -93,7 +113,10 @@ import { NodeComponent } from './components/shared/node/node.component';
         PathingService,
         SnowstormService,
         HistoryService,
-        ReferencesService
+        ReferencesService,
+        TaxonomyService,
+        ModalService,
+        DiagramService
     ],
     bootstrap: [AppComponent]
 })

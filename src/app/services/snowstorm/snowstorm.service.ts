@@ -45,6 +45,30 @@ export class SnowstormService {
             params += '&term=' + options.term;
         }
 
+        if(options.active) {
+            params += '&active=' + options.active;
+        }
+
+        if(options.conceptActive) {
+            params += '&conceptActive=' + options.conceptActive;
+        }
+
+        if(options.searchMode) {
+            params += '&searchMode=' + options.searchMode;
+        }
+
+        if(options.type) {
+            params += options.type;
+        }
+
+        if(options.preferredIn) {
+            params += options.preferredIn;
+        }
+
+        if(options.preferredOrAcceptableIn) {
+            params += options.preferredOrAcceptableIn;
+        }
+
         return this.http.get<Items>('/snowstorm/snomed-ct/browser/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/descriptions?' + params);
     }
 }

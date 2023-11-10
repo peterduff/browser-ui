@@ -4,16 +4,28 @@ import {AppComponent} from "./app.component";
 
 const routes: Routes = [
     {
-        path: ':codesystem',
+        path: ':main',
         component: AppComponent,
         children: [
             {
-                path: ':version',
+                path: ':codesystem',
                 component: AppComponent,
                 children: [
                     {
-                        path: ':concept',
-                        component: AppComponent
+                        path: ':version',
+                        component: AppComponent,
+                        children: [
+                            {
+                                path: ':subVersion',
+                                component: AppComponent,
+                                children: [
+                                    {
+                                        path: ':concept',
+                                        component: AppComponent
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }

@@ -16,12 +16,17 @@ export class EclComponent {
         '    <<  22298006 | Myocardial infarction|';
     eclResults!: Concept[];
     filter: string = '';
+    loading: boolean = false;
 
     constructor(private conceptService: ConceptService) {
     }
 
     executeEcl() {
-        this.conceptService.httpGetConcepts({ecl: this.ecl}).subscribe(data => this.eclResults = data);
+        this.loading = true;
+        this.conceptService.httpGetConcepts({ecl: this.ecl}).subscribe(data => {
+            this.loading = false;
+            this.eclResults = data
+        });
     }
 
     findConcept(concept: Concept): void {

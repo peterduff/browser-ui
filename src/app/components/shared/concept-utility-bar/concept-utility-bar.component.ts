@@ -11,6 +11,8 @@ import {MembersService} from "../../../services/members/members.service";
 })
 export class ConceptUtilityBarComponent {
 
+    conceptHistory!: Concept[];
+    conceptHistorySubscription: Subscription;
     activeConcept!: Concept;
     activeConceptSubscription: Subscription;
     inferredView!: boolean;
@@ -22,6 +24,7 @@ export class ConceptUtilityBarComponent {
                 private membersService: MembersService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
+        this.conceptHistorySubscription = this.conceptService.getConceptHistory().subscribe(data => this.conceptHistory = data);
     }
 
     setInferredView(inferredView: boolean): void {

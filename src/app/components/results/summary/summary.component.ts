@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {Subscription} from "rxjs";
 import {Concept, Relationship} from "../../../models/concept";
 import {ConceptService} from "../../../services/concept/concept.service";
+import {ClipboardService} from "ngx-clipboard";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-summary',
@@ -20,13 +22,18 @@ export class SummaryComponent {
     inferredViewSubscription: Subscription;
     favourites!: Concept[];
     favouritesSubscription: Subscription;
+    conceptLoading!: boolean;
+    conceptLoadingSubscription: Subscription;
 
-    constructor(private conceptService: ConceptService) {
+    constructor(private conceptService: ConceptService,
+                public clipboardService: ClipboardService,
+                private toastr: ToastrService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.activeChildrenSubscription = this.conceptService.getActiveChildren().subscribe(data => this.activeChildren = data);
         this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
         this.favouritesSubscription = this.conceptService.getFavourites().subscribe(data => this.favourites = data);
+        this.conceptLoadingSubscription = this.conceptService.getConceptLoading().subscribe(data => this.conceptLoading = data);
     }
 
     formatRelationships(relationships: Relationship[]) {
@@ -54,6 +61,10 @@ export class SummaryComponent {
         return response;
     }
 
+    findConcept(concept: Concept): void {
+        this.conceptService.findConcept(concept);
+    }
+
     addToFavourites(concept: Concept) {
         if (!this.favourites) {
             this.favourites = [];
@@ -61,5 +72,14 @@ export class SummaryComponent {
 
         this.favourites.push(concept);
         this.conceptService.setFavourites(this.favourites);
+    }
+
+    copyUrl(): void {
+        this.clipboardService.copy(window.location.href);
+        this.copySuccess();
+    }
+
+    copySuccess(): void {
+        this.toastr.success('Copied to clipboard', 'SUCCESS');
     }
 }

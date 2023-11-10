@@ -7,7 +7,7 @@ import {
     of,
     Subject,
     distinctUntilChanged,
-    Observable, fromEvent
+    Observable, fromEvent, timeInterval
 } from "rxjs";
 import {Items} from "../../../models/items";
 import {Options} from "../../../models/options";
@@ -28,12 +28,15 @@ export class SearchComponent implements OnInit {
 
     private searchSubject = new Subject<string>();
     inputText: string = '';
+    recentSearches: string[] = [];
+    loading: boolean = false;
+    responseTime: number = 0;
 
     searchType: string = 'WHOLE WORD';
     searchStatus: string = 'ACTIVE';
-    searchAll: string = '';
+    searchAll: string = 'ALL';
     searchLanguage: string[] = [];
-    searchGrouping: string = 'false';
+    searchGrouping: string = 'GROUP BY CONCEPT';
 
     inferredView!: boolean;
     inferredViewSubscription: Subscription;
@@ -56,8 +59,8 @@ export class SearchComponent implements OnInit {
 
     performSearch(searchValue: string) {
         // Perform the actual search operation here
-        console.log('Performing search for:', searchValue);
         this.search(searchValue);
+        this.recentSearches.push(searchValue);
         // ... Your search logic ...
     }
 
@@ -68,14 +71,86 @@ export class SearchComponent implements OnInit {
     }
 
     search(text: string): void {
-        const options: Options = {
-            limit: 100,
-            term: text,
-        }
+        if (text.length >= 3) {
+            const options: Options = {
+                limit: 100,
+                term: text
+            }
 
-        this.snowstormService.httpGetSearchDescriptions(options).subscribe(data => {
-            this.snowstormService.setSearchDescriptions(data);
-        });
+            switch(this.searchType) {
+                case 'WHOLE WORD':
+                    options.searchMode = 'WHOLE_WORD';
+                    break;
+                case 'PREFIXES':
+                    break;
+            }
+
+            switch(this.searchStatus) {
+                case 'ACTIVE':
+                    options.active = 'true';
+                    options.conceptActive = 'true';
+                    break;
+                case 'INACTIVE':
+                    options.conceptActive = 'false';
+                    break;
+                case 'ALL':
+                    options.active = 'true';
+                    break;
+            }
+
+            switch(this.searchAll) {
+                case 'ALL':
+                    break;
+                case 'NO DEFINITIONS':
+                    options.type = '&type=900000000000013009&type=900000000000003001';
+                    break;
+                case 'FSN':
+                    options.type = '&type=900000000000003001';
+                    break;
+                case 'PREFERRED TERMS':
+                    options.preferredIn = '&preferredIn=900000000000509007&preferredIn=900000000000508004&type=900000000000013009';
+                    break;
+            }
+
+            if (this.searchLanguage.length) {
+                options.type = '&type=900000000000013009';
+                options.preferredOrAcceptableIn = '';
+
+                this.searchLanguage.forEach(lang => {
+                    switch(lang) {
+                        case 'US English':
+                            options.preferredOrAcceptableIn += '&preferredOrAcceptableIn=900000000000509007';
+                            break;
+                        case 'GB English':
+                            options.preferredOrAcceptableIn += '&preferredOrAcceptableIn=900000000000508004';
+                            break;
+                    }
+                });
+            }
+
+            switch(this.searchGrouping) {
+                case 'GROUP BY CONCEPT':
+                    options.groupByConcept = 'true';
+                    break;
+                case 'NO GROUPING':
+                    break;
+            }
+
+            this.loading = true;
+            this.snowstormService.httpGetSearchDescriptions(options).pipe(timeInterval()).subscribe(data => {
+                this.snowstormService.setSearchDescriptions(data.value);
+                this.responseTime = data.interval;
+                this.loading = false;
+            });
+        }
+    }
+
+    toggleLang(lang: string): void {
+        if (this.searchLanguage.includes(lang)) {
+            this.searchLanguage = this.searchLanguage.filter(item => item !== lang);
+        } else {
+            this.searchLanguage.push(lang);
+        }
     }
 
     findConcept(concept: Concept): void {

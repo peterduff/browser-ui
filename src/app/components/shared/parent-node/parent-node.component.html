@@ -1,0 +1,17 @@
+<div id="parent-node">
+    <div class="row body g-0 rounded-2" (click)="findConcept(node)">
+        <div class="col-10">
+            <div class="p-2">
+                <i class="fa-solid fa-chevron-right px-2" (click)="findParents(node); $event.stopPropagation()"></i>
+                <div class="ps-5">
+                    <app-concept [definitionStatus]="node.definitionStatus!" [text]="node.fsn?.term!"></app-concept>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="count">
+            <div class="col-2">
+                <p class="text-end p-2 pe-4 m-0">{{count}}</p>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -4,6 +4,9 @@ import {Subscription} from "rxjs";
 import {ConceptService} from "../../../services/concept/concept.service";
 import {MembersService} from "../../../services/members/members.service";
 import {ReferenceSet} from "../../../models/referenceSet";
+import {ClipboardService} from "ngx-clipboard";
+import {ToastrService} from "ngx-toastr";
+import {ModalService} from "../../../services/modal/modal.service";
 
 @Component({
   selector: 'app-details',
@@ -22,14 +25,23 @@ export class DetailsComponent {
     inferredViewSubscription: Subscription;
     members!: ReferenceSet[];
     membersSubscription: Subscription;
+    conceptLoading!: boolean;
+    conceptLoadingSubscription: Subscription;
 
     constructor(private conceptService: ConceptService,
-                private membersService: MembersService) {
+                private membersService: MembersService,
+                public clipboardService: ClipboardService,
+                private toastr: ToastrService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.activeChildrenSubscription = this.conceptService.getActiveChildren().subscribe(data => this.activeChildren = data);
         this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
         this.membersSubscription = this.membersService.getMembers().subscribe(data => this.members = data);
+        this.conceptLoadingSubscription = this.conceptService.getConceptLoading().subscribe(data => this.conceptLoading = data);
+    }
+
+    findConcept(concept: Concept): void {
+        this.conceptService.findConcept(concept);
     }
 
     calculateMaps(concept: Concept): any {
@@ -48,5 +60,14 @@ export class DetailsComponent {
 
     getAcceptability(description: Description, acceptabilityId: any): any {
         return description.acceptabilityMap[acceptabilityId];
+    }
+
+    copyUrl(): void {
+        this.clipboardService.copy(window.location.href);
+        this.copySuccess();
+    }
+
+    copySuccess(): void {
+        this.toastr.success('Copied to clipboard', 'SUCCESS');
     }
 }

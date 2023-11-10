@@ -11,7 +11,7 @@
             </a>
             <div class="dropdown-menu py-0" aria-labelledby="branchDropdown">
                 <ng-container *ngFor="let codesystem of codesystems">
-                    <a class="dropdown-item ps-3" [routerLink]="[codesystem.branchPath]" (click)="setCodesystem(codesystem)">{{codesystem?.name}}</a>
+                    <a class="dropdown-item ps-3" (click)="setCodesystem(codesystem)">{{codesystem?.name}}</a>
                 </ng-container>
             </div>
         </li>
@@ -22,7 +22,7 @@
             </a>
             <div class="dropdown-menu py-0" aria-labelledby="branchDropdown">
                 <ng-container *ngFor="let version of versions">
-                    <a class="dropdown-item ps-3" [routerLink]="[activeCodesystem.branchPath, version.version]" (click)="setVersion(version)">{{version?.version}}</a>
+                    <a class="dropdown-item ps-3" (click)="setVersion(version)">{{version?.version}}</a>
                 </ng-container>
             </div>
         </li>
@@ -48,13 +48,37 @@
         <div *ngSwitchDefault class="banner text-white d-none"></div>
     </ng-container>
 
-<!--    <div *ngIf="user" class="float-right">-->
-<!--        <div class="logout d-inline-block m-2" (click)="logout()">-->
-<!--            <span class="px-2 text-ghost-grey">Logout</span>-->
-<!--        </div>-->
-<!--        <div class="user d-inline-block m-2">-->
-<!--            <span class="px-2 text-ghost-grey">{{user.firstName}} {{user.lastName}}</span>-->
-<!--            <img class="rounded-circle ms-3" src="https://jira.ihtsdotools.org/secure/useravatar?ownerId={{user.login}}">-->
-<!--        </div>-->
-<!--    </div>-->
+    <ul class="dropdown-nav flags float-end my-2 me-2">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle px-3 py-2 rounded text-end" id="flagDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="fi fi-gb me-2"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="flagDropdown">
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-gb me-3"></span>English</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-dk me-3"></span>Dansk</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-es me-3"></span>Español</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-fr me-3"></span>Français</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-de me-3"></span>Deutsch</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-pt me-3"></span>Portugués</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-no me-3"></span>Norsk</a>
+                <a class="dropdown-item py-2 px-3" href="#" target="_blank"><span class="fi fi-se me-3"></span>Swedish</a>
+                <hr class="dropdown-divider">
+                <a class="dropdown-item disabled text-wrap text py-2 px-3" href="#">This option only applies to the Browser itself. Terminology language depends on the selected edition.</a>
+            </div>
+        </li>
+    </ul>
+
+    <ul class="dropdown-nav info float-end p-0 m-2">
+        <li class="nav-item dropdown">
+            <a class="nav-link px-3 py-2 rounded text-end" id="infoDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="infoDropdown">
+                <a class="dropdown-item p-3" href="https://www.iubenda.com/privacy-policy/46600952" target="_blank">SNOMED International Privacy Policy</a>
+                <a class="dropdown-item p-3" href="https://github.com/IHTSDO/sct-browser-frontend" target="_blank">See the code on GitHub</a>
+                <a class="dropdown-item p-3" href="https://www.snomed.org/software-tools" target="_blank">SNOMED International Tooling</a>
+                <a class="dropdown-item p-3" href="https://www.snomed.org/" target="_blank">SNOMED International</a>
+            </div>
+        </li>
+    </ul>
 </nav>

@@ -1,7 +1,17 @@
 <div id="details" class="container g-0">
+    <ng-container *ngIf="!conceptLoading && !activeConcept">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="conceptLoading">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
     <div *ngIf="activeConcept" class="row details g-0">
         <div class="col-12 px-3 pt-3">
-            <div class="m-3 rounded-3 concept overflow-hidden">
+            <div class="m-3 rounded-3 concept">
                 <div class="name">
                     <div class="definition-status rounded-circle px-2 me-2">
                         <ng-container *ngIf="activeConcept.definitionStatus === 'FULLY_DEFINED'">
@@ -12,8 +22,23 @@
                         </ng-container>
                     </div>
                     <h4 class="d-inline-block p-3 m-0">{{activeConcept.fsn?.term}}</h4>
-                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
-                    <button class="info rounded-circle border-0 p-0"><i class="fa-solid fa-info p-1"></i></button>
+                    <div class="info dropdown">
+                        <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li *ngIf="activeConcept.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{activeConcept.effectiveTime}}</span></a></li>
+                            <li *ngIf="activeConcept.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{activeConcept.moduleId}}</span></a></li>
+                        </ul>
+                    </div>
+                    <div class="dots dropdown">
+                        <button class="dots rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.conceptId); copySuccess()">Copy Concept ID</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.fsn?.term!); copySuccess()">Copy FSN</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.conceptId + ' |' + activeConcept.fsn?.term! + '|'); copySuccess()">Copy FSN and Concept ID</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="clipboardService.copy(activeConcept.conceptId + ' |' + activeConcept.pt?.term! + '|'); copySuccess()">Copy PT and Concept ID</a></li>
+                            <li><a class="dropdown-item px-3 py-2" (click)="copyUrl(); copySuccess()">Copy Link</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <h4 class="sctid px-3 py-2 m-0">
                     <span class="pe-2">SCTID</span>
@@ -43,9 +68,9 @@
         <ng-container *ngIf="members">
             <div class="col-12 px-3">
                 <ng-container *ngFor="let item of calculateMaps(activeConcept) | keyvalue">
-                    <div class="m-3 rounded-3 acceptability-map overflow-hidden">
+                    <div class="m-3 rounded-3 acceptability-map">
                         <h4 class="px-3 pt-3 mb-0">{{findMap(item.key)?.fsn?.term}}</h4>
-                        <div class="row header p-3">
+                        <div class="row header p-3 g-0">
                             <div class="col-8">
                                 <p class="m-0">Term</p>
                             </div>
@@ -54,7 +79,7 @@
                             </div>
                         </div>
                         <ng-container *ngFor="let description of activeConcept.descriptions! | active | descriptions:item.key | acceptabilityMap:item.key; let odd = odd">
-                            <div class="row p-3" [class.odd]="odd">
+                            <div class="row p-3 g-0" [class.odd]="odd">
                                 <div class="col-8">
                                     <p class="m-0">
                                         <span class="type rounded-pill px-2 py-1 me-2" [class.fsn]="description.type === 'FSN'" [class.synonym]="description.type === 'SYNONYM'">{{description.type}}</span>
@@ -63,9 +88,17 @@
                                 </div>
                                 <div class="col-4">
                                     <p class="m-0">{{getAcceptability(description, item.key)}}</p>
-                                    <button class="info rounded-circle border-0 p-0">
-                                        <i class="fa-solid fa-info p-1"></i>
-                                    </button>
+                                    <div class="info dropdown">
+                                        <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                            <li *ngIf="description.descriptionId"><a class="dropdown-item no-hover px-3 py-2">DESCRIPTION ID:<span class="ps-2 text-white">{{description.descriptionId}}</span></a></li>
+                                            <li *ngIf="description.type"><a class="dropdown-item no-hover px-3 py-2">TYPE:<span class="ps-2 text-white">{{description.type}}</span></a></li>
+                                            <li *ngIf="description.lang"><a class="dropdown-item no-hover px-3 py-2">LANGUAGE:<span class="ps-2 text-white">{{description.lang}}</span></a></li>
+                                            <li *ngIf="description.caseSignificance"><a class="dropdown-item no-hover px-3 py-2">CASE SIGNIFICANCE:<span class="ps-2 text-white">{{description.caseSignificance}}</span></a></li>
+                                            <li *ngIf="description.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{description.effectiveTime}}</span></a></li>
+                                            <li *ngIf="description.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{description.moduleId}}</span></a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </ng-container>
@@ -75,8 +108,8 @@
         </ng-container>
 
         <div *ngIf="inferredView && activeConcept.relationships" class="col-12 px-3 pb-3">
-            <div class="m-3 rounded-3 axioms overflow-hidden">
-                <div class="row header p-3">
+            <div class="m-3 rounded-3 axioms">
+                <div class="row header p-3 g-0">
                     <div class="col-3">
                         <p class="m-0">Type</p>
                     </div>
@@ -91,21 +124,29 @@
                     </div>
                 </div>
                 <ng-container *ngFor="let relationship of activeConcept.relationships | active | alphabetical:'groupId'; let even = even">
-                    <div class="row p-3" [class.even]="even">
+                    <div class="row p-3 g-0" [class.even]="even">
                         <div class="col-3">
-                            <p class="m-0">{{relationship.type?.fsn?.term}}</p>
+                            <p class="m-0 linkable" (click)="findConcept(relationship.type)">{{relationship.type?.fsn?.term}}</p>
                         </div>
                         <div class="col-6">
-                            <p class="m-0">{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target?.fsn?.term}}</p>
+                            <p *ngIf="relationship.concreteValue" class="m-0 linkable">{{relationship.concreteValue.value}}</p>
+                            <p *ngIf="!relationship.concreteValue" class="m-0 linkable" (click)="findConcept(relationship.target)">{{relationship.target?.fsn?.term}}</p>
                         </div>
                         <div class="col-1">
                             <p class="m-0">{{relationship.groupId}}</p>
                         </div>
                         <div class="col-2">
                             <p class="m-0">INFERRED</p>
-                            <button class="info rounded-circle border-0 p-0">
-                                <i class="fa-solid fa-info p-1"></i>
-                            </button>
+                            <div class="info dropdown">
+                                <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                    <li *ngIf="relationship.typeId"><a class="dropdown-item no-hover px-3 py-2">TYPE ID:<span class="ps-2 text-white">{{relationship.typeId}}</span></a></li>
+                                    <li *ngIf="relationship.target.conceptId"><a class="dropdown-item no-hover px-3 py-2">TARGET ID:<span class="ps-2 text-white">{{relationship.target.conceptId}}</span></a></li>
+                                    <li *ngIf="relationship.modifier"><a class="dropdown-item no-hover px-3 py-2">MODIFIER:<span class="ps-2 text-white">{{relationship.modifier}}</span></a></li>
+                                    <li *ngIf="relationship.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{relationship.effectiveTime}}</span></a></li>
+                                    <li *ngIf="relationship.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{relationship.moduleId}}</span></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </ng-container>
@@ -113,9 +154,9 @@
         </div>
 
         <div *ngIf="!inferredView && activeConcept.classAxioms![0].relationships" class="col-12 px-3 pb-3">
-            <div class="m-3 rounded-3 axioms overflow-hidden">
+            <div class="m-3 rounded-3 axioms">
                 <h4 class="px-3 pt-3 mb-0">AXIOMS</h4>
-                <div class="row header p-3">
+                <div class="row header p-3 g-0">
                     <div class="col-3">
                         <p class="m-0">Type</p>
                     </div>
@@ -130,21 +171,29 @@
                     </div>
                 </div>
                 <ng-container *ngFor="let relationship of activeConcept.classAxioms![0].relationships | active | alphabetical:'groupId'; let even = even">
-                    <div class="row p-3" [class.even]="even">
+                    <div class="row p-3 g-0" [class.even]="even">
                         <div class="col-3">
-                            <p class="m-0">{{relationship.type?.fsn?.term}}</p>
+                            <p class="m-0 linkable" (click)="findConcept(relationship.type)">{{relationship.type?.fsn?.term}}</p>
                         </div>
                         <div class="col-6">
-                            <p class="m-0">{{relationship.concreteValue ? relationship.concreteValue.value : relationship.target?.fsn?.term}}</p>
+                            <p *ngIf="relationship.concreteValue" class="m-0 linkable">{{relationship.concreteValue.value}}</p>
+                            <p *ngIf="!relationship.concreteValue" class="m-0 linkable" (click)="findConcept(relationship.target)">{{relationship.target?.fsn?.term}}</p>
                         </div>
                         <div class="col-1">
                             <p class="m-0">{{relationship.groupId}}</p>
                         </div>
                         <div class="col-2">
                             <p class="m-0">STATED</p>
-                            <button class="info rounded-circle border-0 p-0">
-                                <i class="fa-solid fa-info p-1"></i>
-                            </button>
+                            <div class="info dropdown">
+                                <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                    <li *ngIf="relationship.typeId"><a class="dropdown-item no-hover px-3 py-2">TYPE ID:<span class="ps-2 text-white">{{relationship.typeId}}</span></a></li>
+                                    <li *ngIf="relationship.targetId"><a class="dropdown-item no-hover px-3 py-2">TARGET ID:<span class="ps-2 text-white">{{relationship.targetId}}</span></a></li>
+                                    <li *ngIf="relationship.modifier"><a class="dropdown-item no-hover px-3 py-2">MODIFIER:<span class="ps-2 text-white">{{relationship.modifier}}</span></a></li>
+                                    <li *ngIf="relationship.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{relationship.effectiveTime}}</span></a></li>
+                                    <li *ngIf="relationship.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{relationship.moduleId}}</span></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </ng-container>

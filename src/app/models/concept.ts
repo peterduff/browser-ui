@@ -11,7 +11,9 @@ export class Concept {
         public descriptions?: Description[],
         public classAxioms?: ClassAxiom[],
         public relationships?: Relationship[],
-        public children?: Concept[]
+        public children?: Concept[],
+        public expanded?: boolean,
+        public effectiveTime?: string
     ) {
     }
 }
@@ -34,9 +36,14 @@ export class PT {
 
 export class Description {
     constructor(
-        public term: string,
-        public lang: string,
-        public acceptabilityMap: any
+        public descriptionId?: string,
+        public term?: string,
+        public type?: string,
+        public caseSignificance?: string,
+        public effectiveTime?: string,
+        public moduleId?: string,
+        public lang?: string,
+        public acceptabilityMap?: any
     ) {
     }
 }

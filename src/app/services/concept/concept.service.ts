@@ -1,15 +1,11 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, map, Observable, Subject, Subscription} from "rxjs";
+import {BehaviorSubject, forkJoin, map, Observable, Subject, Subscription} from "rxjs";
 import {Concept} from "../../models/concept";
 import {HttpClient} from "@angular/common/http";
 import {Options} from "../../models/options";
 import {Codesystem} from "../../models/codesystem";
 import {Version} from "../../models/version";
 import {PathingService} from "../pathing/pathing.service";
-import {MembersService} from "../members/members.service";
-import {ReferenceSet} from "../../models/referenceSet";
-import {HistoryService} from "../history/history.service";
-import {ReferencesService} from "../references/references.service";
 
 @Injectable({
     providedIn: 'root'
@@ -27,18 +23,20 @@ export class ConceptService {
     private inferredView = new BehaviorSubject<boolean>(true);
     private mapConcepts = new Subject<Concept[]>();
     private favourites = new Subject<Concept[]>();
+    private conceptHistory = new Subject<Concept[]>();
+    private conceptLoading = new BehaviorSubject<boolean>(false);
 
     _inferredView!: boolean;
     _inferedViewSubscription: Subscription;
+    _conceptLoading!: boolean;
+    _conceptLoadingSubscription: Subscription;
 
     constructor(private http: HttpClient,
-                private pathingService: PathingService,
-                private membersService: MembersService,
-                private historyService: HistoryService,
-                private referencesService: ReferencesService) {
+                private pathingService: PathingService) {
         this.activeCodesystemSubscription = this.pathingService.getActiveCodesystem().subscribe(data => this.activeCodesystem = data);
         this.activeVersionSubscription = this.pathingService.getActiveVersion().subscribe(data => this.activeVersion = data);
         this._inferedViewSubscription = this.getInferredView().subscribe(data => this._inferredView = data);
+        this._conceptLoadingSubscription = this.getConceptLoading().subscribe(data => this._conceptLoading = data);
     }
 
     setActiveConcept(activeConcept: Concept): void {
@@ -90,56 +88,40 @@ export class ConceptService {
         return this.favourites.asObservable();
     }
 
-    findConcept(concept: Concept): void {
-        this.setActiveConcept(undefined!);
-        this.historyService.setHistory([]);
-        this.referencesService.setReferences([]);
-
-        if (concept) {
-            this.httpBrowserGetConcept(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}).subscribe(data => {
-                this.setActiveConcept(data);
-            });
-            this.httpGetChildren(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}).subscribe(data => {
-                this.setActiveChildren(data);
-            });
-            this.httpGetParents(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}).subscribe(data => {
-                this.setActiveParents(data);
-            });
-            this.membersService.httpGetOwlExpression(concept.conceptId).subscribe(data => {
-                this.membersService.setOwlExpressionSet(data);
-            });
-            this.membersService.httpGetReferenceSets(concept.conceptId).subscribe(data => {
-                this.membersService.setReferenceSets(data);
-
-                this.findMapConcepts(data);
-            });
-            this.historyService.httpGetHistory(concept.conceptId).subscribe(data => {
-                this.historyService.setHistory(data);
-            });
-            this.referencesService.httpGetReferences(concept.conceptId, !this._inferredView).subscribe(data => {
-                this.referencesService.setReferences(data);
-            });
-        }
+    setConceptHistory(conceptHistory: Concept[]): void {
+        this.conceptHistory.next(conceptHistory);
     }
 
-    findMapConcepts(data: ReferenceSet[]) {
+    getConceptHistory(): Observable<Concept[]> {
+        return this.conceptHistory.asObservable();
+    }
 
-        let ids: string[] = [];
-        let results: Concept[] = [];
+    setConceptLoading(conceptLoading: boolean): void {
+        this.conceptLoading.next(conceptLoading);
+    }
 
-        data.forEach((referenceSet: ReferenceSet) => {
-            if (!ids.includes(referenceSet.refsetId)) {
-                ids.push(referenceSet.refsetId);
-            }
-        });
+    getConceptLoading(): Observable<boolean> {
+        return this.conceptLoading.asObservable();
+    }
 
-        ids.forEach((id: string) => {
-            this.httpGetConcept(id).subscribe(data => {
-                results.push(data);
+    findConcept(concept: Concept): void {
+        this.setActiveConcept(undefined!);
+        this.setActiveChildren([]);
+        this.setActiveParents([]);
+
+        if (concept) {
+            this.setConceptLoading(true);
+            forkJoin([
+                this.httpBrowserGetConcept(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
+                this.httpGetChildren(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
+                this.httpGetParents(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'})
+            ]).subscribe(([concept, children, parents]) => {
+                this.setActiveConcept(concept);
+                this.setActiveChildren(children);
+                this.setActiveParents(parents);
+                this.setConceptLoading(false);
             });
-        });
-
-        this.setMapConcepts(results);
+        }
     }
 
     httpBrowserGetConcept(conceptId: string, options: Options): Observable<Concept> {

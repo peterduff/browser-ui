@@ -9,7 +9,9 @@ export class ReferenceSet {
         public children?: ReferenceSet[],
         public definitionStatus?: string,
         public fsn?: FSN,
-        public moduleId?: string
+        public moduleId?: string,
+        public expanded?: boolean,
+        public descendantCount?: number
     ) {
     }
 }
