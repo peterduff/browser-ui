@@ -19,6 +19,7 @@ export class MembersService {
     private members = new Subject<ReferenceSet[]>();
     private memberCounts = new Subject<Object[]>();
     private referenceSets = new Subject<ReferenceSet[]>();
+    private referenceSetMembers = new Subject<ReferenceSet[]>();
     private owlExpressionSet = new Subject<ReferenceSet>();
 
     constructor(private http: HttpClient,
@@ -62,6 +63,14 @@ export class MembersService {
         return this.http.get('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/members?active=true&referencedComponentId=' + referencedComponentId).pipe(map((data: any) => {
             return data.items;
         }));
+    }
+
+    setReferenceSetMembers(referenceSetMembers: ReferenceSet[]): void {
+        this.referenceSetMembers.next(referenceSetMembers);
+    }
+
+    getReferenceSetMembers(): Observable<ReferenceSet[]> {
+        return this.referenceSetMembers.asObservable();
     }
 
     httpGetReferenceSetChildren(refsetId: string): Observable<ReferenceSet[]> {

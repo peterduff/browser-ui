@@ -129,8 +129,8 @@
                             <p class="m-0 linkable" (click)="findConcept(relationship.type)">{{relationship.type?.fsn?.term}}</p>
                         </div>
                         <div class="col-6">
-                            <p *ngIf="relationship.concreteValue" class="m-0 linkable">{{relationship.concreteValue.value}}</p>
-                            <p *ngIf="!relationship.concreteValue" class="m-0 linkable" (click)="findConcept(relationship.target)">{{relationship.target?.fsn?.term}}</p>
+                            <p *ngIf="relationship?.concreteValue" class="m-0 linkable">{{relationship.concreteValue.value}}</p>
+                            <p *ngIf="!relationship?.concreteValue" class="m-0 linkable" (click)="findConcept(relationship.target)">{{relationship.target?.fsn?.term}}</p>
                         </div>
                         <div class="col-1">
                             <p class="m-0">{{relationship.groupId}}</p>
@@ -141,7 +141,7 @@
                                 <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
                                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
                                     <li *ngIf="relationship.typeId"><a class="dropdown-item no-hover px-3 py-2">TYPE ID:<span class="ps-2 text-white">{{relationship.typeId}}</span></a></li>
-                                    <li *ngIf="relationship.target.conceptId"><a class="dropdown-item no-hover px-3 py-2">TARGET ID:<span class="ps-2 text-white">{{relationship.target.conceptId}}</span></a></li>
+                                    <li *ngIf="relationship.target?.conceptId"><a class="dropdown-item no-hover px-3 py-2">TARGET ID:<span class="ps-2 text-white">{{relationship.target?.conceptId}}</span></a></li>
                                     <li *ngIf="relationship.modifier"><a class="dropdown-item no-hover px-3 py-2">MODIFIER:<span class="ps-2 text-white">{{relationship.modifier}}</span></a></li>
                                     <li *ngIf="relationship.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{relationship.effectiveTime}}</span></a></li>
                                     <li *ngIf="relationship.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{relationship.moduleId}}</span></a></li>
@@ -176,8 +176,8 @@
                             <p class="m-0 linkable" (click)="findConcept(relationship.type)">{{relationship.type?.fsn?.term}}</p>
                         </div>
                         <div class="col-6">
-                            <p *ngIf="relationship.concreteValue" class="m-0 linkable">{{relationship.concreteValue.value}}</p>
-                            <p *ngIf="!relationship.concreteValue" class="m-0 linkable" (click)="findConcept(relationship.target)">{{relationship.target?.fsn?.term}}</p>
+                            <p *ngIf="relationship?.concreteValue" class="m-0 linkable">{{relationship.concreteValue.value}}</p>
+                            <p *ngIf="!relationship?.concreteValue" class="m-0 linkable" (click)="findConcept(relationship.target)">{{relationship.target?.fsn?.term}}</p>
                         </div>
                         <div class="col-1">
                             <p class="m-0">{{relationship.groupId}}</p>
@@ -188,7 +188,7 @@
                                 <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
                                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
                                     <li *ngIf="relationship.typeId"><a class="dropdown-item no-hover px-3 py-2">TYPE ID:<span class="ps-2 text-white">{{relationship.typeId}}</span></a></li>
-                                    <li *ngIf="relationship.targetId"><a class="dropdown-item no-hover px-3 py-2">TARGET ID:<span class="ps-2 text-white">{{relationship.targetId}}</span></a></li>
+                                    <li *ngIf="relationship.target?.conceptId"><a class="dropdown-item no-hover px-3 py-2">TARGET ID:<span class="ps-2 text-white">{{relationship.target?.conceptId}}</span></a></li>
                                     <li *ngIf="relationship.modifier"><a class="dropdown-item no-hover px-3 py-2">MODIFIER:<span class="ps-2 text-white">{{relationship.modifier}}</span></a></li>
                                     <li *ngIf="relationship.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{relationship.effectiveTime}}</span></a></li>
                                     <li *ngIf="relationship.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{relationship.moduleId}}</span></a></li>

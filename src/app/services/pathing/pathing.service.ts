@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {map, Observable, Subject} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Codesystem} from "../../models/codesystem";
 import {Version} from "../../models/version";
@@ -13,6 +13,7 @@ export class PathingService {
     private activeCodesystem = new Subject<Codesystem>();
     private versions = new Subject<Version[]>();
     private activeVersion = new Subject<Version>();
+    private activeResultsTab = new BehaviorSubject<number>(0);
 
     constructor(private http: HttpClient) {
     }
@@ -61,5 +62,13 @@ export class PathingService {
                 return data.items;
             }
         ));
+    }
+
+    setActiveResultsTab(activeResultsTab: number): void {
+        this.activeResultsTab.next(activeResultsTab);
+    }
+
+    getActiveResultsTab(): Observable<number> {
+        return this.activeResultsTab.asObservable();
     }
 }

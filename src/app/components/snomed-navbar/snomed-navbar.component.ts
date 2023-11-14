@@ -145,12 +145,6 @@ export class SnomedNavbarComponent implements OnInit {
         if (this.path.match(/\d{6,18}/g)) {
             let conceptId = this.path.match(/\d{6,18}/g)![0];
 
-            // conceptId = '318351000221106';
-            // conceptId = '22298006';
-            // conceptId = '1222625002';
-            // conceptId = '293584003';
-            // conceptId = '900000000000538005';
-
             forkJoin([
                 this.conceptService.httpBrowserGetConcept(conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
                 this.conceptService.httpGetChildren(conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),

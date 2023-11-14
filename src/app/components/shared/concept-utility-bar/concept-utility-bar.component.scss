@@ -30,6 +30,19 @@ div#concept-utility-bar {
         }
     }
 
+    div.name {
+        background: $off-white-light;
+
+        h2 {
+            color: $river-bed;
+            font-weight: 300;
+            font-size: 2rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
     ul {
         li {
             a, label, input {

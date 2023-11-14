@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Concept} from "../../../models/concept";
 import {Subscription} from "rxjs";
 import {Reference} from "../../../models/reference";
@@ -12,15 +12,23 @@ import {ReferencesService} from "../../../services/references/references.service
 })
 export class ReferencesComponent {
 
+    @Input() loading: boolean = true;
+
     activeConcept!: Concept | undefined;
     activeConceptSubscription: Subscription;
     references!: Reference[]
     referencesSubscription: Subscription;
+    conceptLoading!: boolean;
+    conceptLoadingSubscription: Subscription;
 
     constructor(private conceptService: ConceptService,
                 private referencesService: ReferencesService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.referencesSubscription = this.referencesService.getReferences().subscribe(data => this.references = data);
+        this.conceptLoadingSubscription = this.conceptService.getConceptLoading().subscribe(data => this.conceptLoading = data);
     }
 
+    findConcept(concept: Concept): void {
+        this.conceptService.findConcept(concept);
+    }
 }

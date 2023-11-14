@@ -1,1 +1,42 @@
-<p>No Members</p>
+<div id="members" class="container g-0">
+    <ng-container *ngIf="!conceptLoading && !activeConcept && !loading">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="conceptLoading || loading">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
+    <div *ngIf="activeConcept && referenceSetMembers?.length" class="row members g-0">
+        <div class="col-12 px-3 pt-3">
+            <div class="m-3 member">
+                <div class="row header rounded-3 p-3 g-0">
+                    <div class="col-5">
+                        <p class="m-0">TERM</p>
+                    </div>
+                    <div class="col-5">
+                        <p class="m-0">PREFERRED TERM</p>
+                    </div>
+                    <div class="col-2">
+                        <p class="m-0">CONCEPT ID</p>
+                    </div>
+                </div>
+                <ng-container *ngFor="let member of referenceSetMembers; let odd = odd">
+                    <div class="row body p-3 g-0" [class.odd]="odd" (click)="findConcept(member.referencedComponent)">
+                        <div class="col-5">
+                            <app-concept [definitionStatus]="member.referencedComponent.definitionStatus!" [text]="member.referencedComponent.fsn?.term!"></app-concept>
+                        </div>
+                        <div class="col-5">
+                            <p class="m-0">{{member.referencedComponent.pt?.term}}</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="m-0">{{member.referencedComponent.conceptId}}</p>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

@@ -110,6 +110,7 @@ export class ConceptService {
         this.setActiveParents([]);
 
         if (concept) {
+            this.pathingService.setActiveResultsTab(0);
             this.setConceptLoading(true);
             forkJoin([
                 this.httpBrowserGetConcept(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
@@ -137,6 +138,12 @@ export class ConceptService {
 
     httpGetConcept(conceptId: string, options?: Options): Observable<Concept> {
         return this.http.get<Concept>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId);
+    }
+
+    httpBulkGetConcepts(ids: string[]): Observable<Concept[]> {
+        return this.http.get<Concept[]>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts?conceptIds=' + ids.join('&conceptIds=')).pipe(map((data: any) => {
+            return data.items;
+        }));
     }
 
     httpGetConcepts(options: Options): Observable<Concept[]> {

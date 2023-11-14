@@ -6,7 +6,6 @@ import {MembersService} from "../../../services/members/members.service";
 import {ReferenceSet} from "../../../models/referenceSet";
 import {ClipboardService} from "ngx-clipboard";
 import {ToastrService} from "ngx-toastr";
-import {ModalService} from "../../../services/modal/modal.service";
 
 @Component({
   selector: 'app-details',

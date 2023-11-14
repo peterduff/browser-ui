@@ -25,7 +25,7 @@
                 </mat-tab-group>
             </div>
             <div class="col-7 results">
-                <mat-tab-group (selectedTabChange)="onResultsTabSwitch($event.index)" animationDuration="0ms" [selectedIndex]="0">
+                <mat-tab-group (selectedTabChange)="onResultsTabSwitch($event.index)" animationDuration="0ms" [(selectedIndex)]="activeResultsTab">
                     <mat-tab label="SUMMARY">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(0)"></app-concept-utility-bar>
                         <app-summary></app-summary>
@@ -38,29 +38,29 @@
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(2)"></app-concept-utility-bar>
                         <app-diagram></app-diagram>
                     </mat-tab>
-                    <mat-tab label="EXPRESSION">
+                    <mat-tab label="NODE">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(3)"></app-concept-utility-bar>
-                        <app-expression></app-expression>
+                        <app-node-graph [options]="options"></app-node-graph>
+                    </mat-tab>
+                    <mat-tab label="EXPRESSION">
+                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(4)"></app-concept-utility-bar>
+                        <app-expression [loading]="owlLoading"></app-expression>
                     </mat-tab>
                     <mat-tab label="REFSETS">
-                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(4)"></app-concept-utility-bar>
-                        <app-refsets></app-refsets>
+                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(5)"></app-concept-utility-bar>
+                        <app-refsets [mapsloading]="mapsLoading" [refsetsloading]="refsetsLoading"></app-refsets>
                     </mat-tab>
                     <mat-tab label="MEMBERS">
-                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(5)"></app-concept-utility-bar>
-                        <app-members></app-members>
+                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(6)"></app-concept-utility-bar>
+                        <app-members [loading]="memberLoading"></app-members>
                     </mat-tab>
                     <mat-tab label="HISTORY">
-                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(6)"></app-concept-utility-bar>
+                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(7)"></app-concept-utility-bar>
                         <app-history></app-history>
                     </mat-tab>
                     <mat-tab label="REFERENCES">
-                        <app-concept-utility-bar (emitter)="onResultsTabSwitch(7)"></app-concept-utility-bar>
-                        <app-references></app-references>
-                    </mat-tab>
-                    <mat-tab label="NODE">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(8)"></app-concept-utility-bar>
-                        <app-node-graph [options]="options"></app-node-graph>
+                        <app-references [loading]="referencesLoading"></app-references>
                     </mat-tab>
                 </mat-tab-group>
             </div>
@@ -68,3 +68,5 @@
 </div>
 
 <app-snomed-footer></app-snomed-footer>
+
+<app-history-modal></app-history-modal>

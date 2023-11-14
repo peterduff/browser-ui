@@ -53,6 +53,7 @@ import {ToastrModule} from "ngx-toastr";
 import {ModalComponent} from "./components/modal/modal.component";
 import {DiagramService} from "./services/diagram/diagram.service";
 import {NgxEchartsModule} from "ngx-echarts";
+import { HistoryModalComponent } from './components/modal/history-modal/history-modal.component';
 
 @NgModule({
     declarations: [
@@ -88,7 +89,8 @@ import {NgxEchartsModule} from "ngx-echarts";
         NodeGraphComponent,
         MembersNodeComponent,
         RefsetAlphabeticalPipe,
-        ModalComponent
+        ModalComponent,
+        HistoryModalComponent
     ],
     imports: [
         BrowserModule,

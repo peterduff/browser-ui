@@ -1,13 +1,23 @@
 <div id="expression" class="container g-0">
+    <ng-container *ngIf="!conceptLoading && !loading && !activeConcept && !owlExpressionSet">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="conceptLoading || loading">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
     <div *ngIf="activeConcept && owlExpressionSet" class="row pre-coordinated g-0">
         <div class="col-12 px-3 pt-3">
             <div class="m-3 rounded-3 expression overflow-hidden">
                 <div class="header">
                     <h4 class="px-3 pt-3 pb-2 mb-0">Pre-Coordinated Expression</h4>
-                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                    <button class="dots rounded-circle border-0 p-0" (click)="clipboardService.copy(owlExpressionSet.referencedComponent.id + '|' + owlExpressionSet.referencedComponent.fsn?.term + '|')"><i class="fa-solid fa-copy p-1"></i></button>
                 </div>
                 <div class="body">
-                    <p class="code p-3 mb-0">{{owlExpressionSet.referencedComponent.id}} | {{owlExpressionSet.referencedComponent.fsn?.term}}|</p>
+                    <p class="code p-3 mb-0">{{owlExpressionSet.referencedComponent.id}} |{{owlExpressionSet.referencedComponent.fsn?.term}}|</p>
                 </div>
             </div>
         </div>
@@ -18,7 +28,7 @@
             <div class="m-3 rounded-3 expression overflow-hidden">
                 <div class="header">
                     <h4 class="px-3 pt-3 pb-2 mb-0">Expression from Class Axiom Definition</h4>
-                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                    <button class="dots rounded-circle border-0 p-0" (click)="clipboardService.copy(owlExpressionSet.additionalFields.owlExpression)"><i class="fa-solid fa-copy p-1"></i></button>
                 </div>
                 <div class="body">
                     <p class="code p-3 mb-0">{{owlExpressionSet.additionalFields.owlExpression}}</p>
@@ -32,10 +42,12 @@
             <div class="m-3 rounded-3 expression overflow-hidden">
                 <div class="header">
                     <h4 class="px-3 pt-3 pb-2 mb-0">Expression from Inferred Concept Definition</h4>
-                    <button class="dots rounded-circle border-0 p-0"><i class="fa-solid fa-ellipsis-vertical p-1"></i></button>
+                    <button class="dots rounded-circle border-0 p-0" (click)="clipboardService.copy('')"><i class="fa-solid fa-copy p-1"></i></button>
                 </div>
                 <div class="body">
-                    <p class="code p-3 mb-0">{{owlExpressionSet.additionalFields.owlExpression}}</p>
+                    <p *ngFor="let relationship of activeConcept.relationships! | active" class="code p-3 mb-0">
+                        {{relationship.target.fsn?.term}}
+                    </p>
                 </div>
             </div>
         </div>

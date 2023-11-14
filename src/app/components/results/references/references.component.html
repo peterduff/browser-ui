@@ -1,17 +1,27 @@
 <div id="references" class="container g-0">
+    <ng-container *ngIf="!conceptLoading && !activeConcept && !loading">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="conceptLoading || loading">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
     <div *ngIf="activeConcept && references" class="row references g-0">
         <div class="col-12 px-3 pt-3">
-            <div class="m-3 rounded-3 concept overflow-hidden">
+            <div class="m-3 rounded-3 concept">
                 <h4 class="d-inline-block p-3 my-1">{{activeConcept.conceptId}} |{{activeConcept.fsn?.term}}|</h4>
             </div>
         </div>
         <ng-container *ngFor="let reference of references; let last = last">
             <div class="col-12 px-3" [class.pb-3]="last">
-                <div class="m-3 rounded-3 reference overflow-hidden">
+                <div class="m-3 rounded-3 reference">
                     <div class="name">
                         <input type="checkbox" #expanded hidden>
                         <div class="col" (click)="expanded.value === 'expanded' ? expanded.value = 'collapsed' : expanded.value = 'expanded'">
-                            <h4 class="px-3 pt-3 mb-3">
+                            <h4 class="p-3 mb-3">
                                 {{reference.referenceType.fsn?.term}}
                                 <span class="count ps-3">{{reference.referencingConcepts.length}} concepts</span>
                                 <span class="chevron float-start pe-3">
@@ -22,7 +32,7 @@
                         </div>
                     </div>
                     <ng-container *ngIf="expanded.value === 'expanded'">
-                        <div class="row header p-3">
+                        <div class="row header p-3 g-0">
                             <div class="col-5">
                                 <p class="m-0">TERM</p>
                             </div>
@@ -34,7 +44,7 @@
                             </div>
                         </div>
                         <ng-container *ngFor="let concept of reference.referencingConcepts; let odd = odd">
-                            <div class="row body p-3" [class.odd]="odd">
+                            <div class="row body p-3 g-0" [class.odd]="odd" (click)="findConcept(concept)">
                                 <div class="col-5">
                                     <app-concept [definitionStatus]="concept.definitionStatus!" [text]="concept.fsn?.term!"></app-concept>
                                 </div>

@@ -25,6 +25,11 @@ export class AppComponent implements OnInit {
 
     environment!: string;
     loading: boolean = true;
+    owlLoading: boolean = true;
+    mapsLoading: boolean = true;
+    refsetsLoading: boolean = true;
+    referencesLoading: boolean = true;
+    memberLoading: boolean = true;
 
     activeConcept!: Concept | undefined;
     activeConceptSubscription: Subscription;
@@ -32,6 +37,8 @@ export class AppComponent implements OnInit {
     inferredViewSubscription: Subscription;
     taxonomyConcept!: Concept;
     taxonomyConceptSubscription: Subscription;
+    activeResultsTab!: number;
+    activeResultsTabSubscription: Subscription;
 
     options!: Observable<EChartsOption>;
 
@@ -49,6 +56,7 @@ export class AppComponent implements OnInit {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
         this.taxonomyConceptSubscription = this.taxonomyService.getTaxonomyConcept().subscribe(data => this.taxonomyConcept = data);
+        this.activeResultsTabSubscription = this.pathingService.getActiveResultsTab().subscribe(data => this.activeResultsTab = data);
     }
 
     ngOnInit() {
@@ -80,12 +88,9 @@ export class AppComponent implements OnInit {
     }
 
     setupSearchTab() {
-        console.log('setupSearchTab');
     }
 
     setTaxonomyTab() {
-        console.log('setTaxonomyTab');
-
         if (this.activeConcept) {
             this.taxonomyService.findConcept(this.activeConcept, true);
         } else {
@@ -104,15 +109,12 @@ export class AppComponent implements OnInit {
     }
 
     setupEclTab() {
-        console.log('setupEclTab');
     }
 
     setupFavouritesTab() {
-        console.log('setupFavouritesTab');
     }
 
     setupRefsetTab() {
-        console.log('setupRefsetTab');
     }
 
     onResultsTabSwitch(index: number) {
@@ -127,23 +129,24 @@ export class AppComponent implements OnInit {
                 this.setupDiagramTab();
                 return;
             case 3:
-                this.setupExpressionTab();
-                return;
-            case 4:
-                this.setupRefsetsTab();
-                return;
-            case 5:
-                this.setupMembersTab();
-                return;
-            case 6:
-                this.setupHistoryTab();
-                return;
-            case 7:
-                this.setupReferencesTab();
-                return;
-            case 8:
                 this.setupNodeTab();
                 return;
+            case 4:
+                this.setupExpressionTab();
+                return;
+            case 5:
+                this.setupRefsetsTab();
+                return;
+            case 6:
+                this.setupMembersTab();
+                return;
+            case 7:
+                this.setupHistoryTab();
+                return;
+            case 8:
+                this.setupReferencesTab();
+                return;
+
         }
     }
 
@@ -162,16 +165,17 @@ export class AppComponent implements OnInit {
     }
 
     setupDiagramTab() {
-        console.log('setupDiagramTab');
         this.diagramComponent.renderDiagram();
     }
 
     setupExpressionTab() {
         this.membersService.setOwlExpressionSet(undefined!);
 
+        this.owlLoading = true;
         if (this.activeConcept) {
             this.membersService.httpGetOwlExpression(this.activeConcept.conceptId).subscribe(data => {
                 this.membersService.setOwlExpressionSet(data);
+                this.owlLoading = false;
             });
         }
     }
@@ -180,15 +184,39 @@ export class AppComponent implements OnInit {
         this.membersService.setReferenceSets([]);
         this.conceptService.setMapConcepts([]);
 
+        this.mapsLoading = true;
+        this.refsetsLoading = true;
         if (this.activeConcept) {
             this.membersService.httpGetReferenceSets(this.activeConcept.conceptId).subscribe(data => {
                 this.membersService.setReferenceSets(data);
-                this.findMapConcepts(data);
+                this.refsetsLoading = false;
+
+                let ids: string[] = [];
+
+                data.forEach((referenceSet: ReferenceSet) => {
+                    if (!ids.includes(referenceSet.refsetId)) {
+                        ids.push(referenceSet.refsetId);
+                    }
+                });
+
+                this.conceptService.httpBulkGetConcepts(ids).subscribe(data => {
+                    this.conceptService.setMapConcepts(data);
+                    this.mapsLoading = false;
+                });
             });
         }
     }
 
     setupMembersTab() {
+        this.membersService.setReferenceSetMembers([]);
+
+        this.memberLoading = true;
+        if(this.activeConcept) {
+            this.membersService.httpGetReferenceSetChildren(this.activeConcept.conceptId).subscribe(data => {
+                this.membersService.setReferenceSetMembers(data);
+                this.memberLoading = false;
+            });
+        }
     }
 
     setupHistoryTab() {
@@ -204,16 +232,16 @@ export class AppComponent implements OnInit {
     setupReferencesTab() {
         this.referencesService.setReferences([]);
 
+        this.referencesLoading = true;
         if (this.activeConcept) {
             this.referencesService.httpGetReferences(this.activeConcept.conceptId, this.inferredView).subscribe(data => {
                 this.referencesService.setReferences(data);
+                this.referencesLoading = false;
             });
         }
     }
 
     setupNodeTab() {
-        console.log('setupNodeTab');
-
         this.options = this.http.get<any>('assets/les-miserables.json', { responseType: 'json' }).pipe(
             map((graph) => ({
                 tooltip: {
@@ -257,26 +285,6 @@ export class AppComponent implements OnInit {
                 ]
             }))
         );
-    }
-
-    findMapConcepts(data: ReferenceSet[]) {
-
-        let ids: string[] = [];
-        let results: Concept[] = [];
-
-        data.forEach((referenceSet: ReferenceSet) => {
-            if (!ids.includes(referenceSet.refsetId)) {
-                ids.push(referenceSet.refsetId);
-            }
-        });
-
-        ids.forEach((id: string) => {
-            this.conceptService.httpGetConcept(id).subscribe(data => {
-                results.push(data);
-            });
-        });
-
-        this.conceptService.setMapConcepts(results);
     }
 
     assignFavicon() {

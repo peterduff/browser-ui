@@ -1,7 +1,17 @@
 <div id="refsets" class="container g-0">
-    <div *ngIf="activeConcept && referenceSets && mapConcepts" class="row refsets g-0">
+    <ng-container *ngIf="!conceptLoading && !activeConcept && !mapsloading && !refsetsloading">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="conceptLoading || mapsloading || refsetsloading">
+        <div class="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+    </ng-container>
+    <div *ngIf="activeConcept && referenceSets?.length && mapConcepts?.length" class="row refsets g-0">
         <div class="col-12 px-3 pt-3">
-            <div class="m-3 rounded-3 concept overflow-hidden">
+            <div class="m-3 rounded-3 concept">
                 <div class="name">
                     <h4 class="d-inline-block p-3 my-1">{{activeConcept.conceptId}} |{{activeConcept.fsn?.term}}|</h4>
                     <button class="maps rounded-3 border-0 px-3 py-2" (click)="openUrl(activeConcept.conceptId)">MAPS<i class="fa-solid fa-arrow-up-right-from-square ps-2"></i></button>
@@ -9,45 +19,55 @@
             </div>
         </div>
         <div class="col-12 px-3">
-            <div class="m-3 rounded-3 simple overflow-hidden">
+            <div class="m-3 rounded-3 simple">
                 <h4 class="p-3 my-1">Simple Refsets Memberships</h4>
                 <ng-container *ngFor="let refset of referenceSets | simpleRefsets; let even = even">
-                    <div class="row p-3" [class.even]="even">
+                    <div class="row p-3 g-0" [class.even]="even" (click)="findConcept(findMapConcept(refset.refsetId)!)">
                         <div class="col-12">
-                            <p class="m-0">{{findMapName(refset.refsetId)}}</p>
-                            <button class="info rounded-circle border-0 p-0">
-                                <i class="fa-solid fa-info p-1"></i>
-                            </button>
+                            <p class="m-0">{{findMapConcept(refset.refsetId)?.pt?.term}}</p>
+                            <div class="info dropdown">
+                                <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                    <li *ngIf="refset.refsetId"><a class="dropdown-item no-hover px-3 py-2">REFSET ID:<span class="ps-2 text-white">{{refset.refsetId}}</span></a></li>
+                                    <li *ngIf="refset.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{refset.effectiveTime}}</span></a></li>
+                                    <li *ngIf="refset.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{refset.moduleId}}</span></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </ng-container>
             </div>
         </div>
         <div class="col-12 px-3">
-            <div class="m-3 rounded-3 maps overflow-hidden">
+            <div class="m-3 rounded-3 maps">
                 <h4 class="p-3 mb-0">Map Refset Name</h4>
                 <ng-container *ngFor="let refset of referenceSets | mapRefsets; let even = even">
-                    <div class="row p-3" [class.even]="even">
+                    <div class="row p-3 g-0" [class.even]="even" (click)="findConcept(findMapConcept(refset.refsetId)!)">
                         <div class="col-8">
-                            <p class="m-0">{{findMapName(refset.refsetId)}}</p>
+                            <p class="m-0">{{findMapConcept(refset.refsetId)?.pt?.term}}</p>
                         </div>
                         <div class="col-4">
                             <p class="m-0">{{refset.additionalFields?.mapTarget}}</p>
-                            <button class="info rounded-circle border-0 p-0">
-                                <i class="fa-solid fa-info p-1"></i>
-                            </button>
+                            <div class="info dropdown">
+                                <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                    <li *ngIf="refset.refsetId"><a class="dropdown-item no-hover px-3 py-2">REFSET ID:<span class="ps-2 text-white">{{refset.refsetId}}</span></a></li>
+                                    <li *ngIf="refset.effectiveTime"><a class="dropdown-item no-hover px-3 py-2">EFFECTIVE TIME:<span class="ps-2 text-white">{{refset.effectiveTime}}</span></a></li>
+                                    <li *ngIf="refset.moduleId"><a class="dropdown-item no-hover px-3 py-2">MODULE ID:<span class="ps-2 text-white">{{refset.moduleId}}</span></a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </ng-container>
             </div>
         </div>
         <div class="col-12 px-3">
-            <div class="m-3 rounded-3 attribute overflow-hidden">
+            <div class="m-3 rounded-3 attribute">
                 <h4 class="p-3 my-1">Attribute Value Refset Name</h4>
             </div>
         </div>
         <div class="col-12 px-3 pb-3">
-            <div class="m-3 rounded-3 association overflow-hidden">
+            <div class="m-3 rounded-3 association">
                 <h4 class="p-3 my-1">Association Refset Name</h4>
             </div>
         </div>
