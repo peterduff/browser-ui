@@ -22,8 +22,6 @@ export class SummaryComponent {
     inferredViewSubscription: Subscription;
     favourites!: Concept[];
     favouritesSubscription: Subscription;
-    conceptLoading!: boolean;
-    conceptLoadingSubscription: Subscription;
 
     constructor(private conceptService: ConceptService,
                 public clipboardService: ClipboardService,
@@ -33,7 +31,6 @@ export class SummaryComponent {
         this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
         this.favouritesSubscription = this.conceptService.getFavourites().subscribe(data => this.favourites = data);
-        this.conceptLoadingSubscription = this.conceptService.getConceptLoading().subscribe(data => this.conceptLoading = data);
     }
 
     formatRelationships(relationships: Relationship[]) {

@@ -54,6 +54,7 @@ import {ModalComponent} from "./components/modal/modal.component";
 import {DiagramService} from "./services/diagram/diagram.service";
 import {NgxEchartsModule} from "ngx-echarts";
 import { HistoryModalComponent } from './components/modal/history-modal/history-modal.component';
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 @NgModule({
     declarations: [
@@ -90,7 +91,8 @@ import { HistoryModalComponent } from './components/modal/history-modal/history-
         MembersNodeComponent,
         RefsetAlphabeticalPipe,
         ModalComponent,
-        HistoryModalComponent
+        HistoryModalComponent,
+        LoadingComponent
     ],
     imports: [
         BrowserModule,

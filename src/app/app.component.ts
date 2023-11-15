@@ -14,6 +14,8 @@ import {TaxonomyService} from "./services/taxonomy/taxonomy.service";
 import {DiagramComponent} from "./components/results/diagram/diagram.component";
 import {EChartsOption} from "echarts";
 import {HttpClient} from "@angular/common/http";
+import {Reference} from "./models/reference";
+import {History} from "./models/history";
 
 @Component({
     selector: 'app-root',
@@ -24,19 +26,30 @@ import {HttpClient} from "@angular/common/http";
 export class AppComponent implements OnInit {
 
     environment!: string;
-    loading: boolean = true;
-    owlLoading: boolean = true;
-    mapsLoading: boolean = true;
-    refsetsLoading: boolean = true;
-    referencesLoading: boolean = true;
-    memberLoading: boolean = true;
+    initialising: boolean = true;
 
     activeConcept!: Concept | undefined;
     activeConceptSubscription: Subscription;
+    activeChildren!: Concept[];
+    activeChildrenSubscription: Subscription;
+    activeParents!: Concept[];
+    activeParentsSubscription: Subscription;
     inferredView!: boolean;
     inferredViewSubscription: Subscription;
     taxonomyConcept!: Concept;
     taxonomyConceptSubscription: Subscription;
+    owlExpressionSet!: ReferenceSet;
+    owlExpressionSetSubscription: Subscription;
+    referenceSets!: ReferenceSet[];
+    referenceSetsSubscription: Subscription;
+    mapConcepts!: Concept[];
+    mapConceptsSubscription: Subscription;
+    referenceSetMembers!: ReferenceSet[];
+    referenceSetMembersSubscription: Subscription;
+    references!: Reference[]
+    referencesSubscription: Subscription;
+    history!: History[];
+    historySubscription: Subscription;
     activeResultsTab!: number;
     activeResultsTabSubscription: Subscription;
 
@@ -54,9 +67,17 @@ export class AppComponent implements OnInit {
                 private http: HttpClient,
                 @Inject(DOCUMENT) private document: Document) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
+        this.activeChildrenSubscription = this.conceptService.getActiveChildren().subscribe(data => this.activeChildren = data);
+        this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
         this.taxonomyConceptSubscription = this.taxonomyService.getTaxonomyConcept().subscribe(data => this.taxonomyConcept = data);
         this.activeResultsTabSubscription = this.pathingService.getActiveResultsTab().subscribe(data => this.activeResultsTab = data);
+        this.owlExpressionSetSubscription = this.membersService.getOwlExpressionSet().subscribe(data => this.owlExpressionSet = data);
+        this.referenceSetsSubscription = this.membersService.getReferenceSets().subscribe(data => this.referenceSets = data);
+        this.mapConceptsSubscription = this.conceptService.getMapConcepts().subscribe(data => this.mapConcepts = data);
+        this.referenceSetMembersSubscription = this.membersService.getReferenceSetMembers().subscribe(data => this.referenceSetMembers = data);
+        this.referencesSubscription = this.referencesService.getReferences().subscribe(data => this.references = data);
+        this.historySubscription = this.historyService.getHistory().subscribe(data => this.history = data);
     }
 
     ngOnInit() {
@@ -96,16 +117,6 @@ export class AppComponent implements OnInit {
         } else {
             this.taxonomyService.findConcept({conceptId: '138875005'}, true);
         }
-
-        // if (this.activeConcept) {
-        //     this.taxonomyService.httpGetTaxonomyParents(this.activeConcept.conceptId, {descendantCountForm: 'inferred'}).subscribe(data => {
-        //         this.taxonomyService.setTaxonomyParents(data);
-        //     });
-        //
-        //     this.taxonomyService.httpGetTaxonomyConcept(this.activeConcept.conceptId, {descendantCountForm: 'inferred'}).subscribe(data => {
-        //         this.taxonomyService.setTaxonomyConcept(data);
-        //     });
-        // }
     }
 
     setupEclTab() {
@@ -171,25 +182,20 @@ export class AppComponent implements OnInit {
     setupExpressionTab() {
         this.membersService.setOwlExpressionSet(undefined!);
 
-        this.owlLoading = true;
         if (this.activeConcept) {
             this.membersService.httpGetOwlExpression(this.activeConcept.conceptId).subscribe(data => {
                 this.membersService.setOwlExpressionSet(data);
-                this.owlLoading = false;
             });
         }
     }
 
     setupRefsetsTab() {
-        this.membersService.setReferenceSets([]);
-        this.conceptService.setMapConcepts([]);
+        this.membersService.setReferenceSets(undefined!);
+        this.conceptService.setMapConcepts(undefined!);
 
-        this.mapsLoading = true;
-        this.refsetsLoading = true;
         if (this.activeConcept) {
             this.membersService.httpGetReferenceSets(this.activeConcept.conceptId).subscribe(data => {
                 this.membersService.setReferenceSets(data);
-                this.refsetsLoading = false;
 
                 let ids: string[] = [];
 
@@ -201,26 +207,23 @@ export class AppComponent implements OnInit {
 
                 this.conceptService.httpBulkGetConcepts(ids).subscribe(data => {
                     this.conceptService.setMapConcepts(data);
-                    this.mapsLoading = false;
                 });
             });
         }
     }
 
     setupMembersTab() {
-        this.membersService.setReferenceSetMembers([]);
+        this.membersService.setReferenceSetMembers(undefined!);
 
-        this.memberLoading = true;
         if(this.activeConcept) {
             this.membersService.httpGetReferenceSetChildren(this.activeConcept.conceptId).subscribe(data => {
                 this.membersService.setReferenceSetMembers(data);
-                this.memberLoading = false;
             });
         }
     }
 
     setupHistoryTab() {
-        this.historyService.setHistory([]);
+        this.historyService.setHistory(undefined!);
 
         if (this.activeConcept) {
             this.historyService.httpGetHistory(this.activeConcept.conceptId).subscribe(data => {
@@ -230,13 +233,11 @@ export class AppComponent implements OnInit {
     }
 
     setupReferencesTab() {
-        this.referencesService.setReferences([]);
+        this.referencesService.setReferences(undefined!);
 
-        this.referencesLoading = true;
         if (this.activeConcept) {
             this.referencesService.httpGetReferences(this.activeConcept.conceptId, this.inferredView).subscribe(data => {
                 this.referencesService.setReferences(data);
-                this.referencesLoading = false;
             });
         }
     }

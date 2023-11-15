@@ -1,4 +1,8 @@
 <div id="node-graph">
-<!--    <div class="node-graph w-100"></div>-->
+    <ng-container *ngIf="!activeConcept">
+        <div class="no-concept">
+            <h3>No Active Concept</h3>
+        </div>
+    </ng-container>
     <div id="echart-graph" echarts [options]="options | async" [autoResize]="false" class="w-100 h-100"></div>
 </div>

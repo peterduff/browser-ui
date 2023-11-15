@@ -12,29 +12,22 @@ import {MembersService} from "../../../services/members/members.service";
 })
 export class RefsetsComponent {
 
-    @Input() mapsloading: boolean = true;
-    @Input() refsetsloading: boolean = true;
-
     activeConcept!: Concept | undefined;
     activeConceptSubscription: Subscription;
     referenceSets!: ReferenceSet[];
     referenceSetsSubscription: Subscription;
     mapConcepts!: Concept[];
     mapConceptsSubscription: Subscription;
-    conceptLoading!: boolean;
-    conceptLoadingSubscription: Subscription;
 
     constructor(private conceptService: ConceptService,
                 private membersService: MembersService) {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.referenceSetsSubscription = this.membersService.getReferenceSets().subscribe(data => this.referenceSets = data);
         this.mapConceptsSubscription = this.conceptService.getMapConcepts().subscribe(data => this.mapConcepts = data);
-        this.conceptLoadingSubscription = this.conceptService.getConceptLoading().subscribe(data => this.conceptLoading = data);
     }
 
     findConcept(concept: Concept): void {
         this.conceptService.findConcept(concept);
-        console.log('concept: ', concept);
     }
 
     openUrl(id: string) {

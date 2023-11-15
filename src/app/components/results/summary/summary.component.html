@@ -1,12 +1,7 @@
 <div id="summary" class="container g-0">
-    <ng-container *ngIf="!conceptLoading && !activeConcept">
+    <ng-container *ngIf="!activeConcept">
         <div class="no-concept">
             <h3>No Active Concept</h3>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="conceptLoading">
-        <div class="loading">
-            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
     </ng-container>
     <div *ngIf="activeConcept" class="row summary g-0">

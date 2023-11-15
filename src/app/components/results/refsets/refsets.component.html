@@ -1,12 +1,12 @@
 <div id="refsets" class="container g-0">
-    <ng-container *ngIf="!conceptLoading && !activeConcept && !mapsloading && !refsetsloading">
+    <ng-container *ngIf="!activeConcept">
         <div class="no-concept">
             <h3>No Active Concept</h3>
         </div>
     </ng-container>
-    <ng-container *ngIf="conceptLoading || mapsloading || refsetsloading">
-        <div class="loading">
-            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <ng-container *ngIf="activeConcept && !referenceSets?.length && !mapConcepts?.length">
+        <div class="no-concept">
+            <h3>Active Concept has no Refsets</h3>
         </div>
     </ng-container>
     <div *ngIf="activeConcept && referenceSets?.length && mapConcepts?.length" class="row refsets g-0">

@@ -24,8 +24,6 @@ export class DetailsComponent {
     inferredViewSubscription: Subscription;
     members!: ReferenceSet[];
     membersSubscription: Subscription;
-    conceptLoading!: boolean;
-    conceptLoadingSubscription: Subscription;
 
     constructor(private conceptService: ConceptService,
                 private membersService: MembersService,
@@ -36,7 +34,6 @@ export class DetailsComponent {
         this.activeParentsSubscription = this.conceptService.getActiveParents().subscribe(data => this.activeParents = data);
         this.inferredViewSubscription = this.conceptService.getInferredView().subscribe(data => this.inferredView = data);
         this.membersSubscription = this.membersService.getMembers().subscribe(data => this.members = data);
-        this.conceptLoadingSubscription = this.conceptService.getConceptLoading().subscribe(data => this.conceptLoading = data);
     }
 
     findConcept(concept: Concept): void {

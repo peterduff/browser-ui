@@ -1,10 +1,10 @@
-<app-snomed-navbar (emitter)="loading = $event"></app-snomed-navbar>
+<app-snomed-navbar (emitter)="initialising = $event"></app-snomed-navbar>
 
 <div class="container-fluid g-0">
-        <div [hidden]="!loading" class="loading">
+        <div [hidden]="!initialising" class="loading">
             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
-        <div  [hidden]="loading" class="row g-0">
+        <div  [hidden]="initialising" class="row g-0">
             <div class="col-5 search border-end">
                 <mat-tab-group (selectedTabChange)="onSearchTabSwitch($event.index)" animationDuration="0ms" [selectedIndex]="0">
                     <mat-tab label="SEARCH">
@@ -28,39 +28,48 @@
                 <mat-tab-group (selectedTabChange)="onResultsTabSwitch($event.index)" animationDuration="0ms" [(selectedIndex)]="activeResultsTab">
                     <mat-tab label="SUMMARY">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(0)"></app-concept-utility-bar>
-                        <app-summary></app-summary>
+                        <app-loading *ngIf="!activeConcept || !activeChildren || !activeParents"></app-loading>
+                        <app-summary [hidden]="!activeConcept || !activeChildren || !activeParents"></app-summary>
                     </mat-tab>
                     <mat-tab label="DETAILS">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(1)"></app-concept-utility-bar>
-                        <app-details></app-details>
+                        <app-loading *ngIf="!activeConcept || !activeChildren || !activeParents"></app-loading>
+                        <app-details [hidden]="!activeConcept || !activeChildren || !activeParents"></app-details>
                     </mat-tab>
                     <mat-tab label="DIAGRAM">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(2)"></app-concept-utility-bar>
-                        <app-diagram></app-diagram>
+                        <app-loading *ngIf="!activeConcept || !activeChildren || !activeParents"></app-loading>
+                        <app-diagram [hidden]="!activeConcept || !activeChildren || !activeParents"></app-diagram>
                     </mat-tab>
                     <mat-tab label="NODE">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(3)"></app-concept-utility-bar>
-                        <app-node-graph [options]="options"></app-node-graph>
+                        <app-loading *ngIf="!activeConcept || !activeChildren || !activeParents"></app-loading>
+                        <app-node-graph [hidden]="!activeConcept || !activeChildren || !activeParents" [options]="options"></app-node-graph>
                     </mat-tab>
                     <mat-tab label="EXPRESSION">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(4)"></app-concept-utility-bar>
-                        <app-expression [loading]="owlLoading"></app-expression>
+                        <app-loading *ngIf="!owlExpressionSet"></app-loading>
+                        <app-expression [hidden]="!owlExpressionSet"></app-expression>
                     </mat-tab>
                     <mat-tab label="REFSETS">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(5)"></app-concept-utility-bar>
-                        <app-refsets [mapsloading]="mapsLoading" [refsetsloading]="refsetsLoading"></app-refsets>
+                        <app-loading *ngIf="!mapConcepts || !referenceSets"></app-loading>
+                        <app-refsets [hidden]="!mapConcepts || !referenceSets"></app-refsets>
                     </mat-tab>
                     <mat-tab label="MEMBERS">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(6)"></app-concept-utility-bar>
-                        <app-members [loading]="memberLoading"></app-members>
+                        <app-loading *ngIf="!referenceSetMembers"></app-loading>
+                        <app-members [hidden]="!referenceSetMembers"></app-members>
                     </mat-tab>
                     <mat-tab label="HISTORY">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(7)"></app-concept-utility-bar>
-                        <app-history></app-history>
+                        <app-loading *ngIf="!history"></app-loading>
+                        <app-history [hidden]="!history"></app-history>
                     </mat-tab>
                     <mat-tab label="REFERENCES">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(8)"></app-concept-utility-bar>
-                        <app-references [loading]="referencesLoading"></app-references>
+                        <app-loading *ngIf="!references"></app-loading>
+                        <app-references [hidden]="!references"></app-references>
                     </mat-tab>
                 </mat-tab-group>
             </div>

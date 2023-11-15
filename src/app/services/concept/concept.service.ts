@@ -24,19 +24,15 @@ export class ConceptService {
     private mapConcepts = new Subject<Concept[]>();
     private favourites = new Subject<Concept[]>();
     private conceptHistory = new Subject<Concept[]>();
-    private conceptLoading = new BehaviorSubject<boolean>(false);
 
     _inferredView!: boolean;
     _inferedViewSubscription: Subscription;
-    _conceptLoading!: boolean;
-    _conceptLoadingSubscription: Subscription;
 
     constructor(private http: HttpClient,
                 private pathingService: PathingService) {
         this.activeCodesystemSubscription = this.pathingService.getActiveCodesystem().subscribe(data => this.activeCodesystem = data);
         this.activeVersionSubscription = this.pathingService.getActiveVersion().subscribe(data => this.activeVersion = data);
         this._inferedViewSubscription = this.getInferredView().subscribe(data => this._inferredView = data);
-        this._conceptLoadingSubscription = this.getConceptLoading().subscribe(data => this._conceptLoading = data);
     }
 
     setActiveConcept(activeConcept: Concept): void {
@@ -96,14 +92,6 @@ export class ConceptService {
         return this.conceptHistory.asObservable();
     }
 
-    setConceptLoading(conceptLoading: boolean): void {
-        this.conceptLoading.next(conceptLoading);
-    }
-
-    getConceptLoading(): Observable<boolean> {
-        return this.conceptLoading.asObservable();
-    }
-
     findConcept(concept: Concept): void {
         this.setActiveConcept(undefined!);
         this.setActiveChildren([]);
@@ -111,7 +99,6 @@ export class ConceptService {
 
         if (concept) {
             this.pathingService.setActiveResultsTab(0);
-            this.setConceptLoading(true);
             forkJoin([
                 this.httpBrowserGetConcept(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
                 this.httpGetChildren(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
@@ -120,7 +107,6 @@ export class ConceptService {
                 this.setActiveConcept(concept);
                 this.setActiveChildren(children);
                 this.setActiveParents(parents);
-                this.setConceptLoading(false);
             });
         }
     }

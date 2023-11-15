@@ -1,12 +1,7 @@
 <div id="expression" class="container g-0">
-    <ng-container *ngIf="!conceptLoading && !loading && !activeConcept && !owlExpressionSet">
+    <ng-container *ngIf="!activeConcept && !owlExpressionSet">
         <div class="no-concept">
             <h3>No Active Concept</h3>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="conceptLoading || loading">
-        <div class="loading">
-            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
     </ng-container>
     <div *ngIf="activeConcept && owlExpressionSet" class="row pre-coordinated g-0">
@@ -46,7 +41,7 @@
                 </div>
                 <div class="body">
                     <p *ngFor="let relationship of activeConcept.relationships! | active" class="code p-3 mb-0">
-                        {{relationship.target.fsn?.term}}
+                        {{relationship.target?.fsn?.term}}
                     </p>
                 </div>
             </div>

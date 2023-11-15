@@ -1,15 +1,15 @@
 <div id="references" class="container g-0">
-    <ng-container *ngIf="!conceptLoading && !activeConcept && !loading">
+    <ng-container *ngIf="!activeConcept">
         <div class="no-concept">
             <h3>No Active Concept</h3>
         </div>
     </ng-container>
-    <ng-container *ngIf="conceptLoading || loading">
-        <div class="loading">
-            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    <ng-container *ngIf="activeConcept && !references?.length">
+        <div class="no-concept">
+            <h3>Active Concept has no References</h3>
         </div>
     </ng-container>
-    <div *ngIf="activeConcept && references" class="row references g-0">
+    <div *ngIf="activeConcept && references?.length" class="row references g-0">
         <div class="col-12 px-3 pt-3">
             <div class="m-3 rounded-3 concept">
                 <h4 class="d-inline-block p-3 my-1">{{activeConcept.conceptId}} |{{activeConcept.fsn?.term}}|</h4>
