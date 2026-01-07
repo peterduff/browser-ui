@@ -10,7 +10,7 @@ import {TaxonomyService} from "../../../services/taxonomy/taxonomy.service";
 export class ParentNodeComponent {
 
     @Input() node!: Concept;
-    @Input() count!: boolean;
+    @Input() count!: number | string;
     @Input() view!: boolean;
 
     @Output() emitFindConcept = new EventEmitter<any>();
@@ -20,12 +20,10 @@ export class ParentNodeComponent {
     }
 
     findConcept(node: any): void {
-        console.log('findConcept');
         this.emitFindConcept.emit(node);
     }
 
     findParents(node: any): void {
-        console.log('findParents');
         this.emitFindParents.emit(node);
     }
 }

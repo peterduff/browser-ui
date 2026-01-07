@@ -12,6 +12,8 @@ import {ConceptService} from "../../../services/concept/concept.service";
 })
 export class RefsetComponent {
 
+    refsetFilter: string = '';
+
     members!: ReferenceSet[];
     membersSubscription: Subscription;
     memberCounts!: Object[];
@@ -25,5 +27,9 @@ export class RefsetComponent {
 
     findConcept(concept: Concept): void {
         this.conceptService.findConcept(concept);
+    }
+
+    findCount(concept: any): any {
+        return this.memberCounts[concept.conceptId];
     }
 }

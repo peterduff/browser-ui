@@ -63,17 +63,6 @@ export class TaxonomyService {
         }
     }
 
-    httpGetTaxonomyParents(conceptId: string, options: Options): Observable<Concept[]> {
-
-        let params = '';
-
-        if(options.descendantCountForm) {
-            params += '&form=' + options.descendantCountForm;
-        }
-
-        return this.http.get<Concept[]>('/snowstorm/snomed-ct/browser/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId + '/parents?' + params);
-    }
-
     httpGetTaxonomyConcept(conceptId: string, options: Options): Observable<Concept> {
 
         let params = '';
@@ -82,7 +71,18 @@ export class TaxonomyService {
             params += '&form=' + options.descendantCountForm;
         }
 
-        return this.http.get<Concept>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId + '?' + params);
+        return this.http.get<Concept>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId + '?&descendantCount=true' + params);
+    }
+
+    httpGetTaxonomyParents(conceptId: string, options: Options): Observable<Concept[]> {
+
+        let params = '';
+
+        if(options.descendantCountForm) {
+            params += '&form=' + options.descendantCountForm;
+        }
+
+        return this.http.get<Concept[]>('/snowstorm/snomed-ct/browser/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId + '/parents?&includeDescendantCount=true' + params);
     }
 
     httpGetTaxonomyChildren(conceptId: string, options: Options): Observable<Concept[]> {

@@ -45,6 +45,11 @@ div#refsets {
             div.row {
                 p {
                     font-size: 1.4rem;
+
+                    &.linkable:hover {
+                        color: $blumine;
+                        cursor: pointer;
+                    }
                 }
 
                 div {
@@ -89,6 +94,11 @@ div#refsets {
             div.row {
                 p {
                     font-size: 1.4rem;
+
+                    &.linkable:hover {
+                        color: $blumine;
+                        cursor: pointer;
+                    }
                 }
 
                 div {

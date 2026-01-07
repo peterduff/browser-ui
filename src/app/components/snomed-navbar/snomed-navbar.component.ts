@@ -3,9 +3,9 @@ import { Location} from '@angular/common';
 import { AuthoringService } from 'src/app/services/authoring/authoring.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { User } from '../../models/user';
-import {forkJoin, Subscription} from 'rxjs';
+import {forkJoin, skip, Subscription} from 'rxjs';
 import {PathingService} from '../../services/pathing/pathing.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Codesystem} from "../../models/codesystem";
 import {Version} from "../../models/version";
 import {ReverseAlphabeticalPipe} from "../../pipes/reverse-alphabetical/reverse-alphabetical.pipe";
@@ -58,6 +58,15 @@ export class SnomedNavbarComponent implements OnInit {
         this.activeConceptSubscription = this.conceptService.getActiveConcept().subscribe(data => this.activeConcept = data);
         this.environment = window.location.host.split(/[.]/)[0].split(/[-]/)[0];
         this.path = this.location.path();
+        // router.events.subscribe((event) => {
+        //     if (event instanceof NavigationEnd) {
+        //         let conceptId = event?.url?.match(/\d{6,18}/g)![0];
+        //
+        //         if (this.activeCodesystem) {
+        //             this.findConcept({conceptId: conceptId}, true);
+        //         }
+        //     }
+        // });
     }
 
     ngOnInit() {
@@ -164,7 +173,7 @@ export class SnomedNavbarComponent implements OnInit {
         return this.reverseAlphabeticalPipe.transform(versions, 'effectiveDate')[0];
     }
 
-    findConcept(concept: Concept): void {
-        this.conceptService.findConcept(concept);
+    findConcept(concept: Concept, skipNavigate: boolean): void {
+        this.conceptService.findConcept(concept, skipNavigate);
     }
 }

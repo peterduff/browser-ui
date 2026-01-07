@@ -43,8 +43,7 @@
                     </mat-tab>
                     <mat-tab label="NODE">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(3)"></app-concept-utility-bar>
-                        <app-loading *ngIf="!activeConcept || !activeChildren || !activeParents"></app-loading>
-                        <app-node-graph [hidden]="!activeConcept || !activeChildren || !activeParents" [options]="options"></app-node-graph>
+                        <app-node-graph [options]="options"></app-node-graph>
                     </mat-tab>
                     <mat-tab label="EXPRESSION">
                         <app-concept-utility-bar (emitter)="onResultsTabSwitch(4)"></app-concept-utility-bar>

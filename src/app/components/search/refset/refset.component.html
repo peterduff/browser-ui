@@ -3,25 +3,25 @@
         <div class="col-12 options d-inline-flex">
             <div class="dropdown p-3">
                 <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    ALL
+                    {{(refsetFilter ? refsetFilter : 'ALL') | uppercase}}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                    <li><a class="dropdown-item px-3 py-2" href="#">ALL</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">ASSOCIATION</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">ATTRIBUTE VALUE</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">DESCRIPTION FORMAT REFERENCE SET</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">EXTENDED MAP</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">LANGAUGE TYPE</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">MODULE DEPENDENCY</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM ATTRIBUTE DOMAIN REFERENCE SET</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM ATTRIBUTE RANGE REFERENCE SET</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM DOMAIN REFERENCE SET</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">MRCM MODULE SCOPE REFERENCE SET</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">OWL EXPRESSION TYPE REFERENCE SET</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">REFERENCE SET DESCRIPTOR</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">SIMPLE MAP FROM SNOMED CT</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">SIMPLE MAP TO SNOMED CT</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">SIMPLE TYPE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = ''">ALL</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'association type'">ASSOCIATION TYPE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'attribute value'">ATTRIBUTE VALUE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'description format reference set'">DESCRIPTION FORMAT REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'extended map'">EXTENDED MAP</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'language type'">LANGAUGE TYPE</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'module dependency'">MODULE DEPENDENCY</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'mrcm attribute domain reference set'">MRCM ATTRIBUTE DOMAIN REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'mrcm attribute range reference set'">MRCM ATTRIBUTE RANGE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'mrcm domain reference set'">MRCM DOMAIN REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'mrcm module scope reference set'">MRCM MODULE SCOPE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'owl expression type reference set'">OWL EXPRESSION TYPE REFERENCE SET</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'reference set descriptor'">REFERENCE SET DESCRIPTOR</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'simple map from snomed ct'">SIMPLE MAP FROM SNOMED CT</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'simple map to snomed ct'">SIMPLE MAP TO SNOMED CT</a></li>
+                    <li><a class="dropdown-item px-3 py-2" (click)="refsetFilter = 'simple type reference set'">SIMPLE TYPE REFERENCE SET</a></li>
                 </ul>
             </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
     </ng-container>
-    <ng-container *ngFor="let member of members | active | alphabetical:'fsn':'term'">
-        <app-members-node [node]="member" [count]="false" (emitFindConcept)="findConcept($event)"></app-members-node>
+    <ng-container *ngFor="let member of members | active | alphabetical:'fsn':'term' | refsetFilter:refsetFilter">
+        <app-members-node [node]="member" [count]="findCount(member)" (emitFindConcept)="findConcept($event)"></app-members-node>
     </ng-container>
 </div>

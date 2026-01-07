@@ -10,7 +10,7 @@ import {Concept} from "../../../models/concept";
 export class NodeComponent {
 
     @Input() node!: Concept;
-    @Input() count!: boolean;
+    @Input() count!: number | string;
     @Input() view!: boolean;
     loading: boolean = false;
 
@@ -25,6 +25,8 @@ export class NodeComponent {
 
     findChildren(node: any): void {
         this.loading = true;
+        node.children = [];
+
         this.taxonomyService.httpGetTaxonomyChildren(node.conceptId, {descendantCountForm: this.view ? 'inferred' : 'stated'}).subscribe(data => {
             node.children = data;
             this.loading = false;

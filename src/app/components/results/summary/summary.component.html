@@ -7,7 +7,7 @@
     <div *ngIf="activeConcept" class="row summary g-0">
         <div class="col-12 px-3 pt-3">
             <div class="m-3 p-3 rounded-3 parents">
-                <h4 class="mb-2">PARENTS</h4>
+                <h4 class="mb-2"><span class="px-2">{{activeParents.length}}</span>{{activeParents.length === 1 ? 'PARENT' : 'PARENTS'}}</h4>
                 <ng-container *ngFor="let parent of activeParents">
                     <div class="p-1" (click)="findConcept(parent)">
                         <app-concept [definitionStatus]="parent.definitionStatus!" [text]="parent.fsn?.term!"></app-concept>
@@ -106,7 +106,7 @@
 
         <div class="col-12 px-3 mb-3">
             <div class="m-3 p-3 rounded-3 children">
-                <h4 class="mb-2">CHILDREN</h4>
+                <h4 class="mb-2"><span class="px-2">{{activeChildren.length}}</span>{{activeChildren.length === 1 ? 'CHILD' : 'CHILDREN'}}</h4>
                 <ng-container *ngFor="let children of activeChildren">
                     <div class="p-1" (click)="findConcept(children)">
                         <app-concept [definitionStatus]="children.definitionStatus!" [text]="children.fsn?.term!"></app-concept>

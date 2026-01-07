@@ -12,7 +12,6 @@ import {ConceptService} from "../../../services/concept/concept.service";
 export class TaxonomyComponent implements OnInit {
 
     view: boolean = true;
-    count: boolean = false;
     recentSearches: Concept[] = [];
 
     activeConcept!: Concept | undefined;

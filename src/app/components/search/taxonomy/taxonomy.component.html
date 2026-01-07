@@ -1,7 +1,7 @@
 <div id="taxonomy" class="container g-0">
     <div class="row g-0">
         <div class="col-12 options d-inline-flex">
-            <div class="dropdown flex-fill py-3 ps-3">
+            <div class="dropdown flex-fill py-3 px-3">
                 <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{view ? 'INFERRED VIEW' : 'STATED VIEW'}}
                 </button>
@@ -19,15 +19,17 @@
 <!--                    <li><a class="dropdown-item px-3 py-2" href="#">PT in US</a></li>-->
 <!--                </ul>-->
 <!--            </div>-->
-            <div class="dropdown flex-fill py-3 px-3">
-                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{count ? 'SHOW DESCENDANT COUNTS' : 'HIDE DESCENDANT COUNTS'}}
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                    <li><a class="dropdown-item px-3 py-2" href="#">SHOW DESCENDANT COUNTS</a></li>
-                    <li><a class="dropdown-item px-3 py-2" href="#">HIDE DESCENDANT COUNTS</a></li>
-                </ul>
-            </div>
+
+<!--            <div class="dropdown flex-fill py-3 px-3">-->
+<!--                <button class="rounded-pill px-3 py-2 dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                    {{count ? 'SHOW DESCENDANT COUNTS' : 'HIDE DESCENDANT COUNTS'}}-->
+<!--                </button>-->
+<!--                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">-->
+<!--                    <li><a class="dropdown-item px-3 py-2" href="#">SHOW DESCENDANT COUNTS</a></li>-->
+<!--                    <li><a class="dropdown-item px-3 py-2" href="#">HIDE DESCENDANT COUNTS</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+
             <div class="dropdown py-3">
                 <button type="button" class="btn history rounded-circle border-0 me-3" data-bs-toggle="dropdown"><i class="fa-solid fa-clock-rotate-left"></i></button>
                 <ul class="dropdown-menu">
@@ -51,14 +53,14 @@
             <ng-container *ngIf="taxonomyParents">
                 <div class="border-bottom">
                     <ng-container *ngFor="let parent of taxonomyParents">
-                        <app-parent-node [node]="parent" [view]="view" [count]="count" (emitFindConcept)="findConcept($event); findParents($event)" (emitFindParents)="findParents($event)"></app-parent-node>
+                        <app-parent-node [node]="parent" [view]="view" [count]="parent?.descendantCount!" (emitFindConcept)="findConcept($event); findParents($event)" (emitFindParents)="findParents($event)"></app-parent-node>
                     </ng-container>
                 </div>
             </ng-container>
 
             <ng-container  *ngIf="taxonomyConcept">
                 <div class="ps-3">
-                    <app-node [node]="taxonomyConcept" [view]="view" [count]="count" (emitFindConcept)="findConcept($event); findParents($event)"></app-node>
+                    <app-node [node]="taxonomyConcept" [view]="view" [count]="activeConcept?.descendantCount!" (emitFindConcept)="findConcept($event); findParents($event)"></app-node>
                 </div>
             </ng-container>
         </div>

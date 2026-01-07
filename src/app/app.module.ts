@@ -55,6 +55,7 @@ import {DiagramService} from "./services/diagram/diagram.service";
 import {NgxEchartsModule} from "ngx-echarts";
 import { HistoryModalComponent } from './components/modal/history-modal/history-modal.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
+import { RefsetFilterPipe } from './pipes/refset-filter/refset-filter.pipe';
 
 @NgModule({
     declarations: [
@@ -92,7 +93,8 @@ import { LoadingComponent } from './components/shared/loading/loading.component'
         RefsetAlphabeticalPipe,
         ModalComponent,
         HistoryModalComponent,
-        LoadingComponent
+        LoadingComponent,
+        RefsetFilterPipe
     ],
     imports: [
         BrowserModule,

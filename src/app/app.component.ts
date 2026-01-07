@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {PathingService} from "./services/pathing/pathing.service";
 import {AuthenticationService} from "./services/authentication/authentication.service";
 import {AuthoringService} from "./services/authoring/authoring.service";
@@ -21,7 +21,8 @@ import {History} from "./models/history";
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    providers: [DiagramComponent]
+    providers: [DiagramComponent],
+    encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
 
@@ -53,7 +54,8 @@ export class AppComponent implements OnInit {
     activeResultsTab!: number;
     activeResultsTabSubscription: Subscription;
 
-    options!: Observable<EChartsOption>;
+    // options!: Observable<EChartsOption>;
+    options!: EChartsOption;
 
     constructor(private authenticationService: AuthenticationService,
                 private authoringService: AuthoringService,
@@ -243,49 +245,169 @@ export class AppComponent implements OnInit {
     }
 
     setupNodeTab() {
-        this.options = this.http.get<any>('assets/les-miserables.json', { responseType: 'json' }).pipe(
-            map((graph) => ({
-                tooltip: {
-                    trigger: 'item',
-                    triggerOn: 'mousemove',
-                },
-                legend: [
-                    {
-                        // selectedMode: 'single',
-                        data: graph.categories.map(function (a: { name: string }) {
-                            return a.name;
-                        })
-                    }
-                ],
-                animationDuration: 1500,
-                animationEasingUpdate: 'quinticInOut',
-                series: [
-                    {
-                        name: 'Les Miserables',
-                        type: 'graph',
-                        layout: 'none',
-                        data: graph.nodes,
-                        links: graph.links,
-                        categories: graph.categories,
-                        roam: true,
-                        label: {
-                            position: 'right',
-                            formatter: '{b}'
-                        },
+        this.options = {
+            tooltip: {},
+            legend: [
+                {
+                    data: this.createGraphCategories().map(function (a: { name: string }) {
+                        return a.name;
+                    })
+                }
+            ],
+            animationDuration: 1500,
+            animationEasingUpdate: 'quinticInOut',
+            series: [
+                {
+                    type: 'graph',
+                    layout: 'none',
+                    data: this.createGraphNodes(),
+                    links: this.createGraphLinks(),
+                    categories: this.createGraphCategories(),
+                    roam: true,
+                    label: {
+                        show: true,
+                        position: 'bottom',
+                        formatter: '{b}'
+                    },
+                    labelLayout: {
+                        hideOverlap: true
+                    },
+                    lineStyle: {
+                        color: 'source',
+                        curveness: 0.3
+                    },
+                    emphasis: {
+                        focus: 'adjacency',
                         lineStyle: {
-                            color: 'source',
-                            curveness: 0.3
-                        },
-                        emphasis: {
-                            focus: 'adjacency',
-                            lineStyle: {
-                                width: 10
-                            }
+                            width: 10
                         }
                     }
-                ]
-            }))
-        );
+                }
+            ]
+        };
+
+        // this.options = this.http.get<any>('assets/sample-concept.json', { responseType: 'json' }).pipe(
+        //     map((graph) => ({
+        //         tooltip: {
+        //             trigger: 'item',
+        //             triggerOn: 'mousemove',
+        //         },
+        //         legend: [
+        //             {
+        //                 data: this.createGraphCategories().map(function (a: { name: string }) {
+        //                     return a.name;
+        //                 })
+        //             }
+        //         ],
+        //         animationDuration: 1500,
+        //         animationEasingUpdate: 'quinticInOut',
+        //         series: [
+        //             {
+        //                 type: 'graph',
+        //                 layout: 'none',
+        //                 // data: graph.nodes,
+        //                 // links: graph.links,
+        //                 // categories: graph.categories,
+        //                 data: this.createGraphNodes(),
+        //                 links: this.createGraphLinks(),
+        //                 categories: this.createGraphCategories(),
+        //                 roam: true,
+        //                 label: {
+        //                     formatter: ''
+        //                 },
+        //                 lineStyle: {
+        //                     color: 'source',
+        //                     curveness: 0.3
+        //                 },
+        //                 emphasis: {
+        //                     focus: 'adjacency',
+        //                     lineStyle: {
+        //                         width: 10
+        //                     }
+        //                 }
+        //             }
+        //         ]
+        //     }))
+        // );
+    }
+
+    createGraphNodes(): any {
+        let nodes: any[] = [];
+
+        nodes.push({
+            id: "0",
+            name: this.activeConcept?.pt?.term!,
+            symbolSize: 40,
+            x: 0,
+            y: 0,
+            value: this.activeChildren?.length,
+            conceptId: this.activeConcept?.id,
+            category: 0
+        });
+
+        if (this.activeParents) {
+            this.activeParents.forEach((parent, index) => {
+                nodes.push({
+                    id: (index + 1).toString(),
+                    name: parent?.pt?.term!,
+                    symbolSize: 20,
+                    x: this.randomIntFromInterval(-50, -200),
+                    y: this.randomIntFromInterval(-200, 200),
+                    value: parent.descendantCount,
+                    conceptId: parent.id,
+                    category: 1
+                });
+            });
+        }
+
+        if (this.activeChildren) {
+            this.activeChildren.forEach((child, index) => {
+                nodes.push({
+                    id: (index + this.activeParents.length + 1).toString(),
+                    name: child?.pt?.term!,
+                    symbolSize: 20,
+                    x: this.randomIntFromInterval(50, 200),
+                    y: this.randomIntFromInterval(-200, 200),
+                    value: child.descendantCount,
+                    conceptId: child.id,
+                    category: 2
+                });
+            });
+        }
+
+        return nodes;
+    }
+
+    createGraphLinks(): any {
+        let links: any[] = [];
+
+        if (this.activeParents) {
+            this.activeParents.forEach((parent, index) => {
+                links.push({
+                    source: (index + 1).toString(),
+                    target: "0",
+                });
+            });
+        }
+
+        if (this.activeChildren) {
+            this.activeChildren.forEach((children, index) => {
+                links.push({
+                    source: "0",
+                    target: (index + this.activeParents.length + 1).toString(),
+                });
+            });
+        }
+
+        return links;
+    }
+
+    createGraphCategories(): any {
+        return [{name: "Concept"}, {name: "Parent"}, {name: "Child"}];
+    }
+
+    randomIntFromInterval(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
     assignFavicon() {

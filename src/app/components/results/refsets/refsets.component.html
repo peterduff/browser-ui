@@ -22,9 +22,9 @@
             <div class="m-3 rounded-3 simple">
                 <h4 class="p-3 my-1">Simple Refsets Memberships</h4>
                 <ng-container *ngFor="let refset of referenceSets | simpleRefsets; let even = even">
-                    <div class="row p-3 g-0" [class.even]="even" (click)="findConcept(findMapConcept(refset.refsetId)!)">
+                    <div class="row p-3 g-0" [class.even]="even">
                         <div class="col-12">
-                            <p class="m-0">{{findMapConcept(refset.refsetId)?.pt?.term}}</p>
+                            <p class="m-0 linkable" (click)="findConcept(findMapConcept(refset.refsetId)!)">{{findMapConcept(refset.refsetId)?.pt?.term}}</p>
                             <div class="info dropdown">
                                 <button class="info rounded-circle border-0 p-0" data-bs-toggle="dropdown"><i class="fa-solid fa-info p-1"></i></button>
                                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
@@ -42,9 +42,9 @@
             <div class="m-3 rounded-3 maps">
                 <h4 class="p-3 mb-0">Map Refset Name</h4>
                 <ng-container *ngFor="let refset of referenceSets | mapRefsets; let even = even">
-                    <div class="row p-3 g-0" [class.even]="even" (click)="findConcept(findMapConcept(refset.refsetId)!)">
+                    <div class="row p-3 g-0" [class.even]="even">
                         <div class="col-8">
-                            <p class="m-0">{{findMapConcept(refset.refsetId)?.pt?.term}}</p>
+                            <p class="m-0 linkable" (click)="findConcept(findMapConcept(refset.refsetId)!)">{{findMapConcept(refset.refsetId)?.pt?.term}}</p>
                         </div>
                         <div class="col-4">
                             <p class="m-0">{{refset.additionalFields?.mapTarget}}</p>

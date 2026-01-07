@@ -73,6 +73,18 @@ nav {
                 color: $off-white;
             }
 
+            &.concept {
+                color: $off-white;
+                font-size: 1.7rem;
+                font-weight: 300;
+                letter-spacing: 1px;
+                max-width: 50vw;
+                vertical-align: middle;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+
             a {
                 min-width: 8rem;
                 font-size: 1.4rem;

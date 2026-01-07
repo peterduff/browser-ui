@@ -26,7 +26,9 @@ div#node {
     }
 
     div.loading {
-        display: flex;
+        display: block;
+        height: 3rem;
+        text-align: left;
         padding-left: 3.5rem;
 
         .lds-ring {

@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, forkJoin, map, Observable, Subject, Subscription} from "rxjs";
+import {BehaviorSubject, forkJoin, map, Observable, skip, Subject, Subscription} from "rxjs";
 import {Concept} from "../../models/concept";
 import {HttpClient} from "@angular/common/http";
 import {Options} from "../../models/options";
 import {Codesystem} from "../../models/codesystem";
 import {Version} from "../../models/version";
 import {PathingService} from "../pathing/pathing.service";
+import {Router} from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +30,8 @@ export class ConceptService {
     _inferedViewSubscription: Subscription;
 
     constructor(private http: HttpClient,
-                private pathingService: PathingService) {
+                private pathingService: PathingService,
+                private router: Router) {
         this.activeCodesystemSubscription = this.pathingService.getActiveCodesystem().subscribe(data => this.activeCodesystem = data);
         this.activeVersionSubscription = this.pathingService.getActiveVersion().subscribe(data => this.activeVersion = data);
         this._inferedViewSubscription = this.getInferredView().subscribe(data => this._inferredView = data);
@@ -92,13 +94,16 @@ export class ConceptService {
         return this.conceptHistory.asObservable();
     }
 
-    findConcept(concept: Concept): void {
+    findConcept(concept: Concept, skipNavigate?: boolean): void {
         this.setActiveConcept(undefined!);
         this.setActiveChildren([]);
         this.setActiveParents([]);
 
         if (concept) {
             this.pathingService.setActiveResultsTab(0);
+            // if (skipNavigate) {
+                this.navigateToConcept(concept);
+            // }
             forkJoin([
                 this.httpBrowserGetConcept(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
                 this.httpGetChildren(concept.conceptId, {descendantCountForm: this.inferredView ? 'inferred' : 'stated'}),
@@ -111,6 +116,12 @@ export class ConceptService {
         }
     }
 
+    navigateToConcept(concept: Concept): void {
+        if (concept) {
+            this.router.navigate([this.activeCodesystem.branchPath, this.activeVersion.version, concept.conceptId]);
+        }
+    }
+
     httpBrowserGetConcept(conceptId: string, options: Options): Observable<Concept> {
 
         let params = '';
@@ -120,10 +131,6 @@ export class ConceptService {
         }
 
         return this.http.get<Concept>('/snowstorm/snomed-ct/browser/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId + '?' + params);
-    }
-
-    httpGetConcept(conceptId: string, options?: Options): Observable<Concept> {
-        return this.http.get<Concept>('/snowstorm/snomed-ct/' + this.activeCodesystem.branchPath + '/' + this.activeVersion.version + '/concepts/' + conceptId);
     }
 
     httpBulkGetConcepts(ids: string[]): Observable<Concept[]> {
@@ -149,6 +156,8 @@ export class ConceptService {
 
         let params = '';
 
+        params += '&includeDescendantCount=true';
+
         if(options.descendantCountForm) {
             params += '&form=' + options.descendantCountForm;
         }
@@ -159,6 +168,8 @@ export class ConceptService {
     httpGetParents(conceptId: string, options: Options): Observable<Concept[]> {
 
         let params = '';
+
+        params += '&includeDescendantCount=true';
 
         if(options.descendantCountForm) {
             params += '&form=' + options.descendantCountForm;

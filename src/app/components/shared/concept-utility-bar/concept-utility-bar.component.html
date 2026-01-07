@@ -1,16 +1,11 @@
 <div id="concept-utility-bar" class="row g-0">
-    <div class="col-3 options">
+    <div class="col-6 options">
         <div class="m-3 pt-2 ps-3 toggle">
             <mat-slide-toggle  [hideIcon]="true" [color]="'primary'" [checked]="inferredView" [labelPosition]="'before'" (change)="setInferredView(!inferredView)">STATED</mat-slide-toggle>
             <span class="stated pe-2 py-2">INFERRED</span>
         </div>
     </div>
-    <div class="col-6 name text-center">
-        <ng-container *ngIf="activeConcept">
-            <h2 class="mb-0 py-3">{{activeConcept.fsn?.term}}</h2>
-        </ng-container>
-    </div>
-    <div class="col-3 options d-inline-flex flex-row-reverse">
+    <div class="col-6 options d-inline-flex flex-row-reverse">
         <div class="py-3 pe-3">
             <button class="btn history rounded-circle border-0"><i class="fa-solid fa-gear"></i></button>
         </div>

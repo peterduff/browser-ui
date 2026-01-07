@@ -17,14 +17,14 @@
         </ng-container>
     </div>
     <ng-container *ngIf="loading">
-        <div class="loading">
+        <div class="loading py-2">
             <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
     </ng-container>
     <ng-container *ngIf="node.children && node.expanded">
         <div class="ps-3">
             <ng-container *ngFor="let subNode of node.children | active | alphabetical:'fsn':'term'">
-                <app-node [node]="subNode" [view]="view" [count]="count" (emitFindConcept)="findConcept($event)"></app-node>
+                <app-node [node]="subNode" [view]="view" [count]="subNode?.descendantCount ? subNode.descendantCount : '0'" (emitFindConcept)="findConcept($event)"></app-node>
             </ng-container>
         </div>
     </ng-container>

@@ -10,7 +10,7 @@ import {ReferenceSet} from "../../../models/referenceSet";
 export class MembersNodeComponent {
 
     @Input() node!: ReferenceSet;
-    @Input() count!: boolean;
+    @Input() count!: number | string;
     @Input() view!: boolean;
     loading: boolean = false;
 
@@ -25,6 +25,7 @@ export class MembersNodeComponent {
 
     findChildren(node: any): void {
         this.loading = true;
+        node.children = [];
 
         this.membersService.httpGetReferenceSetChildren(node.conceptId!).subscribe(data => {
             node.children = data;

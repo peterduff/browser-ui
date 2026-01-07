@@ -26,6 +26,10 @@
                 </ng-container>
             </div>
         </li>
+        <ng-container *ngIf="activeConcept">
+            <li class="px-3 py-2 slash">/</li>
+            <li class="py-2 concept">{{activeConcept.conceptId + ' |' + activeConcept.fsn?.term! + '|'}}</li>
+        </ng-container>
     </ul>
 
     <ng-template #loading>
